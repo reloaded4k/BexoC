@@ -40,7 +40,8 @@ def login():
         admin = Admin.query.filter_by(username=form.username.data).first()
         
         # Check if admin exists and password is correct
-        if admin and check_password_hash(admin.password_hash, form.password.data):
+        password = form.password.data or ""  # Ensure password is never None
+        if admin and check_password_hash(admin.password_hash, password):
             login_user(admin)
             next_page = request.args.get('next')
             # Validate next_page to prevent open redirect vulnerability
@@ -114,8 +115,9 @@ def edit_shipment(tracking_number):
     # Get shipment by tracking number
     shipment = Shipment.query.filter_by(tracking_number=tracking_number).first_or_404()
     
-    # Create form and populate with shipment data
+    # Create forms - both edit form and update form are needed
     form = EditShipmentForm(obj=shipment)
+    update_form = TrackingUpdateForm()
     
     if form.validate_on_submit():
         # Update shipment data
@@ -129,7 +131,8 @@ def edit_shipment(tracking_number):
     
     return render_template('admin/edit_shipment.html', 
                           shipment=shipment, 
-                          edit_form=form)
+                          edit_form=form,
+                          update_form=update_form)
 
 @admin_bp.route('/shipment/<tracking_number>/delete', methods=['POST'])
 @login_required
