@@ -94,6 +94,7 @@ def view_shipment(tracking_number):
     
     # Create forms
     update_form = TrackingUpdateForm()
+    edit_form = EditShipmentForm(obj=shipment)
     
     if update_form.validate_on_submit():
         # Add tracking update
@@ -104,7 +105,8 @@ def view_shipment(tracking_number):
     
     return render_template('admin/edit_shipment.html', 
                           shipment=shipment, 
-                          update_form=update_form)
+                          update_form=update_form,
+                          edit_form=edit_form)
 
 @admin_bp.route('/shipment/<tracking_number>/edit', methods=['GET', 'POST'])
 @login_required
