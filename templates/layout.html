@@ -94,7 +94,7 @@
     <!-- Additional styling -->
     <style>
         .navbar-dark .navbar-nav .nav-link {
-            color: rgba(255, 255, 255, 0.9) !important;
+            color: #FFFFFF !important;
             font-weight: bold !important;
             position: relative;
             padding-left: 0.5rem;
@@ -104,7 +104,7 @@
         .navbar-dark .navbar-nav .nav-link:hover,
         .navbar-dark .navbar-nav .nav-link:focus,
         .navbar-dark .navbar-nav .nav-link.active {
-            color: #ffffff !important;
+            color: #FFFFFF !important;
         }
         
         .nav-link.active::after {
@@ -204,7 +204,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bexo Cargo Logo" style="filter: brightness(0) invert(1);" width="45" height="45">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bexo Cargo Logo" style="filter: brightness(0) invert(1);" width="180" height="60">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -231,7 +231,7 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="{{ url_for('shipment.book') }}" class="btn btn-orange">Book Now</a>
+                    <a href="{{ url_for('shipment.book') }}" class="btn btn-orange" style="background-color: #FF6600; border-color: #FF6600;">Book Now</a>
                     {% if current_user.is_authenticated %}
                         <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-light ms-lg-2">Admin Dashboard</a>
                         <a href="{{ url_for('admin.logout') }}" class="btn btn-outline-light ms-lg-2">Logout</a>
