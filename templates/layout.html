@@ -12,19 +12,111 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        .btn-orange {
+            background-color: #FF6600;
+            border-color: #FF6600;
+            color: white;
+        }
+        
+        .btn-orange:hover {
+            background-color: #e55c00;
+            border-color: #e55c00;
+            color: white;
+        }
+        
+        .navbar {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+        
+        .navbar-dark {
+            background-color: #051C39;
+        }
+        
+        .footer-dark {
+            background-color: #051C39;
+            padding: 4rem 0 2rem;
+            color: white;
+        }
+        
+        .footer-dark a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+        
+        .footer-dark a:hover {
+            color: #FF6600;
+        }
+        
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: #FF6600;
+            color: white;
+        }
+        
+        .nav-item {
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        .nav-link {
+            position: relative;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0.5rem;
+            right: 0.5rem;
+            height: 2px;
+            background-color: #FF6600;
+        }
+        
+        .footer-logo {
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-logo img {
+            height: 40px;
+        }
+    </style>
     
     {% block extra_css %}{% endblock %}
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg {% if request.path == '/' %}navbar-dark navbar-home{% else %}navbar-light bg-white{% endif %} fixed-top">
+    <nav class="navbar navbar-expand-lg {% if request.path == '/' %}navbar-dark{% else %}navbar-light bg-white{% endif %} fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
-                <i class="fas fa-shipping-fast me-2"></i>Bexo Cargo
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bexo Cargo Logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -35,17 +127,20 @@
                         <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{{ url_for('main.index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/about' %}active{% endif %}" href="{{ url_for('main.about') }}">About</a>
+                        <a class="nav-link {% if 'how-it-works' in request.path %}active{% endif %}" href="{{ url_for('main.index') }}#how-it-works">How It Works</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/contact' %}active{% endif %}" href="{{ url_for('main.contact') }}">Contact</a>
+                        <a class="nav-link {% if 'services' in request.path %}active{% endif %}" href="{{ url_for('main.index') }}#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'testimonials' in request.path %}active{% endif %}" href="{{ url_for('main.index') }}#testimonials">Testimonials</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/track' %}active{% endif %}" href="{{ url_for('main.track') }}">Track</a>
                     </li>
                 </ul>
                 <div class="ms-lg-3 mt-3 mt-lg-0">
-                    <a href="{{ url_for('shipment.book') }}" class="btn btn-primary">Book a Shipment</a>
+                    <a href="{{ url_for('shipment.book') }}" class="btn btn-orange">Book Now</a>
                 </div>
             </div>
         </div>
@@ -70,39 +165,41 @@
     </main>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer-dark">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h5 class="mb-3">Bexo Cargo</h5>
+                    <div class="footer-logo">
+                        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bexo Cargo Logo">
+                    </div>
                     <p>Your trusted partner for reliable and efficient shipping solutions worldwide. We deliver your cargo safely and on time.</p>
                     <div class="social-icons mt-3">
-                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="me-2"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
-                    <h5>Quick Links</h5>
+                    <h5 class="mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                        <li><a href="{{ url_for('main.about') }}">About Us</a></li>
-                        <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
-                        <li><a href="{{ url_for('main.track') }}">Track Shipment</a></li>
-                        <li><a href="{{ url_for('shipment.book') }}">Book a Shipment</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.index') }}">Home</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.about') }}">About Us</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.track') }}">Track Shipment</a></li>
+                        <li class="mb-2"><a href="{{ url_for('shipment.book') }}">Book a Shipment</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5>Legal</h5>
+                    <h5 class="mb-3">Legal</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{ url_for('main.terms') }}">Terms of Service</a></li>
-                        <li><a href="{{ url_for('main.privacy') }}">Privacy Policy</a></li>
-                        <li><a href="{{ url_for('main.shipping_terms') }}">Shipping Terms</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.terms') }}">Terms of Service</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.privacy') }}">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="{{ url_for('main.shipping_terms') }}">Shipping Terms</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3">
-                    <h5>Contact Us</h5>
+                    <h5 class="mb-3">Contact Us</h5>
                     <ul class="list-unstyled">
                         <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>123 Shipping Lane, Cargo City</li>
                         <li class="mb-2"><i class="fas fa-phone me-2"></i>+1 (800) SHIP-BEXO</li>
@@ -110,8 +207,8 @@
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom text-center">
-                <p class="mb-0">&copy; 2023 Bexo Cargo. All rights reserved.</p>
+            <div class="border-top border-secondary mt-4 pt-4 text-center">
+                <p class="mb-0">&copy; 2025 Bexo Cargo. All rights reserved.</p>
             </div>
         </div>
     </footer>

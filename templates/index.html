@@ -2,198 +2,426 @@
 
 {% block title %}Bexo Cargo - Reliable Shipping & Logistics Solutions{% endblock %}
 
+{% block extra_css %}
+<style>
+    .hero-section {
+        background-color: #051C39;
+        color: white;
+        padding: 3rem 0;
+    }
+    
+    .booking-form {
+        background-color: white;
+        border-radius: 10px;
+        padding: 2rem;
+        color: #333;
+    }
+    
+    .booking-form-title {
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+    
+    .feature-badge {
+        background-color: rgba(255, 102, 0, 0.1);
+        color: #FF6600;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-badge i {
+        margin-right: 0.5rem;
+    }
+    
+    .hero-image {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        background-color: #FF6600;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin: 0 auto 1rem;
+    }
+    
+    .step-icon {
+        font-size: 2.5rem;
+        color: #FF6600;
+        margin-bottom: 1rem;
+    }
+    
+    .service-card {
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 1.5rem;
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .service-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .service-icon {
+        color: #FF6600;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .testimonial-card {
+        padding: 1.5rem;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .testimonial-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+    }
+    
+    .rating {
+        color: #FFC107;
+        margin: 0.5rem 0;
+    }
+    
+    .tracking-section {
+        background-color: #051C39;
+        color: white;
+        padding: 3rem 0;
+    }
+    
+    .btn-orange {
+        background-color: #FF6600;
+        border-color: #FF6600;
+        color: white;
+    }
+    
+    .btn-orange:hover {
+        background-color: #e55c00;
+        border-color: #e55c00;
+        color: white;
+    }
+    
+    .section-dots {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+    
+    .dot {
+        width: 8px;
+        height: 8px;
+        background-color: #ddd;
+        border-radius: 50%;
+        margin: 0 3px;
+    }
+    
+    .dot.active {
+        background-color: #FF6600;
+    }
+    
+    .tracking-feature {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem 0;
+    }
+    
+    .tracking-feature i {
+        margin-right: 0.5rem;
+        color: #FF6600;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
-<section class="hero">
+<section class="hero-section py-5">
     <div class="container">
-        <div class="hero-content">
-            <h1>Your Cargo, Our Priority</h1>
-            <p>Reliable shipping and logistics solutions for businesses and individuals worldwide. Track your shipments and book new cargo deliveries with ease.</p>
-            <div class="d-flex flex-wrap gap-2">
-                <a href="{{ url_for('shipment.book') }}" class="btn btn-primary">Book a Shipment</a>
-                <a href="{{ url_for('main.track') }}" class="btn btn-outline-light">Track Your Cargo</a>
+        <div class="row align-items-center">
+            <!-- Booking Form -->
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="booking-form">
+                    <h2 class="booking-form-title">Book Your Cargo in Minutes</h2>
+                    <form action="{{ url_for('shipment.book') }}" method="GET">
+                        <div class="mb-3">
+                            <label for="origin" class="form-label">Origin Country</label>
+                            <select class="form-select" id="origin" required>
+                                <option value="" selected disabled>Select country</option>
+                                <option value="us">United States</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="ca">Canada</option>
+                                <option value="au">Australia</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="destination" class="form-label">Destination Country</label>
+                            <select class="form-select" id="destination" required>
+                                <option value="" selected disabled>Select country</option>
+                                <option value="us">United States</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="ca">Canada</option>
+                                <option value="au">Australia</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="weight" class="form-label">Weight (kg)</label>
+                            <input type="number" class="form-control" id="weight" placeholder="Enter weight">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cargo-type" class="form-label">Cargo Type</label>
+                            <select class="form-select" id="cargo-type">
+                                <option value="" selected disabled>e.g. Documents, Electronics</option>
+                                <option value="documents">Documents</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="fragile">Fragile Items</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-orange w-100 py-2">Book Now</button>
+                    </form>
+                    <div class="text-center mt-2">
+                        <small class="text-muted">Instant confirmation · Secure process</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hero Content -->
+            <div class="col-lg-7">
+                <div class="feature-badge">
+                    <i class="fas fa-clock"></i> Africa-wide Delivery
+                </div>
+                <h1 class="display-5 fw-bold mb-3">Reliable Air Courier Services Across 50 African Countries</h1>
+                <p class="lead mb-4">Fast, secure, and reliable shipping solutions for businesses and individuals. Track your packages in real-time and enjoy seamless delivery experience.</p>
+                
+                <div class="hero-buttons mb-4">
+                    <a href="{{ url_for('shipment.book') }}" class="btn btn-orange me-2">Get Started</a>
+                    <a href="{{ url_for('main.track') }}" class="btn btn-outline-light">Track Shipment</a>
+                </div>
+                
+                <img src="https://img.freepik.com/free-vector/delivery-service-illustrated_23-2148505081.jpg?w=740&t=st=1705662184~exp=1705662784~hmac=d11d2fe3836003462a99bd22f004b6d59cc3988d6dcbb3c580134031f95134b7" class="hero-image" alt="Shipping illustration">
             </div>
         </div>
     </div>
 </section>
 
 <!-- How It Works Section -->
-<section class="section" id="how-it-works">
+<section class="section py-5" id="how-it-works">
     <div class="container">
-        <div class="section-title">
-            <h2>How It Works</h2>
-            <p>Simple steps to ship your cargo with us</p>
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">How It Works</h2>
+            <p class="lead">Sending your cargo is simple with BEXO CARGO. Follow these 4 easy steps:</p>
         </div>
         
         <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 text-center p-4">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <i class="fas fa-box-open fa-3x text-primary"></i>
-                        </div>
-                        <h3 class="card-title">1. Book</h3>
-                        <p class="card-text">Complete our simple booking form with details about your shipment and we'll take care of the rest.</p>
-                    </div>
-                </div>
+            <div class="col-md-3 text-center">
+                <div class="step-circle">1</div>
+                <i class="fas fa-laptop step-icon"></i>
+                <h4>Book Online</h4>
+                <p>Fill our simple booking form to schedule a shipment.</p>
             </div>
             
-            <div class="col-md-4">
-                <div class="card h-100 text-center p-4">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <i class="fas fa-shipping-fast fa-3x text-primary"></i>
-                        </div>
-                        <h3 class="card-title">2. Ship</h3>
-                        <p class="card-text">Our team picks up your cargo and ensures it's safely transported to its destination.</p>
-                    </div>
-                </div>
+            <div class="col-md-3 text-center">
+                <div class="step-circle">2</div>
+                <i class="fas fa-people-carry step-icon"></i>
+                <h4>We Collect</h4>
+                <p>Our team collects your cargo from your location.</p>
             </div>
             
-            <div class="col-md-4">
-                <div class="card h-100 text-center p-4">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <i class="fas fa-search-location fa-3x text-primary"></i>
-                        </div>
-                        <h3 class="card-title">3. Track</h3>
-                        <p class="card-text">Monitor your shipment's journey in real-time using our advanced tracking system.</p>
-                    </div>
-                </div>
+            <div class="col-md-3 text-center">
+                <div class="step-circle">3</div>
+                <i class="fas fa-plane-departure step-icon"></i>
+                <h4>We Ship</h4>
+                <p>Cargo is shipped securely via our air courier network.</p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="step-circle">4</div>
+                <i class="fas fa-check-circle step-icon"></i>
+                <h4>Delivered</h4>
+                <p>Recipient receives the shipment safely and on time.</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Services Section -->
-<section class="section bg-light" id="services">
+<section class="section py-5 bg-light" id="services">
     <div class="container">
-        <div class="section-title">
-            <h2>Our Services</h2>
-            <p>We offer comprehensive logistics solutions tailored to your needs</p>
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Our Services</h2>
+            <p class="lead">Tailored logistics solutions for individuals and businesses, ensuring efficiency and reliability.</p>
         </div>
         
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-truck fa-2x text-primary me-3"></i>
-                            <h4 class="card-title mb-0">Ground Shipping</h4>
-                        </div>
-                        <p class="card-text">Efficient and cost-effective ground transportation for your domestic shipments with reliable delivery times.</p>
-                    </div>
+            <div class="col-md-4">
+                <div class="service-card text-center">
+                    <i class="fas fa-plane service-icon"></i>
+                    <h4>Air Courier</h4>
+                    <p>Express international shipping for fast delivery across Africa.</p>
                 </div>
             </div>
             
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-plane fa-2x text-primary me-3"></i>
-                            <h4 class="card-title mb-0">Air Freight</h4>
-                        </div>
-                        <p class="card-text">Expedited air shipping solutions for time-sensitive cargo delivering to international destinations.</p>
-                    </div>
+            <div class="col-md-4">
+                <div class="service-card text-center">
+                    <i class="fas fa-home service-icon"></i>
+                    <h4>Door-to-Door</h4>
+                    <p>We pickup and deliver right to your door address, hassle-free.</p>
                 </div>
             </div>
             
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-ship fa-2x text-primary me-3"></i>
-                            <h4 class="card-title mb-0">Ocean Freight</h4>
-                        </div>
-                        <p class="card-text">Reliable sea freight services for large shipments with competitive rates and global coverage.</p>
-                    </div>
+            <div class="col-md-4">
+                <div class="service-card text-center">
+                    <i class="fas fa-boxes service-icon"></i>
+                    <h4>Bulk & Special Cargo</h4>
+                    <p>Customized solutions for large shipments requiring specialized handling.</p>
                 </div>
             </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-warehouse fa-2x text-primary me-3"></i>
-                            <h4 class="card-title mb-0">Warehousing</h4>
-                        </div>
-                        <p class="card-text">Secure storage facilities with inventory management to optimize your supply chain.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-file-invoice fa-2x text-primary me-3"></i>
-                            <h4 class="card-title mb-0">Customs Clearance</h4>
-                        </div>
-                        <p class="card-text">Expert assistance with customs documentation and regulatory compliance for smooth border crossings.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-box fa-2x text-primary me-3"></i>
-                            <h4 class="card-title mb-0">Specialized Cargo</h4>
-                        </div>
-                        <p class="card-text">Special handling for oversized, fragile, or temperature-sensitive items requiring extra care.</p>
-                    </div>
-                </div>
-            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{{ url_for('main.contact') }}" class="btn btn-orange">Get a Quote</a>
+        </div>
+        
+        <div class="section-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
 </section>
 
 <!-- Testimonials Section -->
-<section class="section" id="testimonials">
+<section class="section py-5" id="testimonials">
     <div class="container">
-        <div class="section-title">
-            <h2>Testimonials</h2>
-            <p>What our clients say about our services</p>
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">What Our Clients Say</h2>
+            <p class="lead">Trusted by customers across Africa for reliable delivery and exceptional service.</p>
         </div>
         
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="testimonial">
-                    <p class="testimonial-text">"Bexo Cargo has consistently delivered our products on time and in perfect condition. Their tracking system gives us peace of mind knowing exactly where our shipments are."</p>
-                    <div class="testimonial-author">John Smith</div>
-                    <div class="text-muted">CEO, TechGlobal Inc.</div>
+                <div class="testimonial-card text-center">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Kwame Madaki" class="testimonial-image">
+                    <h5>Kwame Madaki</h5>
+                    <p class="text-muted small">Accra, Ghana</p>
+                    <p>"I've been shipping with BEXO for over 2 years now. Never once had any issues with delivery. The tracking updates were spot on!"</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                 </div>
             </div>
             
             <div class="col-md-4">
-                <div class="testimonial">
-                    <p class="testimonial-text">"We've been using Bexo Cargo for our international shipments for over 3 years now. Their customer service is exceptional and they always find solutions to our logistics challenges."</p>
-                    <div class="testimonial-author">Sarah Johnson</div>
-                    <div class="text-muted">Operations Manager, Fashion Retailers Ltd.</div>
+                <div class="testimonial-card text-center">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Amanda Sam" class="testimonial-image">
+                    <h5>Amanda Sam</h5>
+                    <p class="text-muted small">Lagos, Nigeria</p>
+                    <p>"Their air courier service is in perfect condition. Highly recommend BEXO for business shipping!"</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                 </div>
             </div>
             
             <div class="col-md-4">
-                <div class="testimonial">
-                    <p class="testimonial-text">"As a small business owner, I appreciate Bexo Cargo's transparent pricing and reliable service. They've made shipping my products to customers around the world hassle-free."</p>
-                    <div class="testimonial-author">Michael Chen</div>
-                    <div class="text-muted">Owner, Artisan Crafts</div>
+                <div class="testimonial-card text-center">
+                    <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Samuel Ochieng" class="testimonial-image">
+                    <h5>Samuel Ochieng</h5>
+                    <p class="text-muted small">Nairobi, Kenya</p>
+                    <p>"Exceptional service every time! Their staff are courteous and professional. Will use again for sure!"</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
-<section class="section bg-primary text-white">
-    <div class="container text-center">
-        <h2 class="mb-4">Ready to Ship Your Cargo?</h2>
-        <p class="lead mb-4">Experience hassle-free shipping with our expert team handling your cargo from pickup to delivery.</p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="{{ url_for('shipment.book') }}" class="btn btn-light btn-lg">Book a Shipment</a>
-            <a href="{{ url_for('main.track') }}" class="btn btn-outline-light btn-lg">Track Your Cargo</a>
+<!-- Tracking Section -->
+<section class="tracking-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="fw-bold mb-4">Track Your Shipment</h2>
+                <form action="{{ url_for('main.track') }}" method="POST" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-lg" name="tracking_number" placeholder="Enter Tracking Number" required>
+                        <button class="btn btn-orange" type="submit">Track</button>
+                    </div>
+                </form>
+                
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="tracking-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Secure Tracking</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tracking-feature">
+                            <i class="fas fa-history"></i>
+                            <span>Real-time Updates</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tracking-feature">
+                            <i class="fas fa-globe-africa"></i>
+                            <span>50 African Countries</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add event listener to Book Now button in the quick form
+        const quickForm = document.querySelector('.booking-form form');
+        if (quickForm) {
+            quickForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Redirect to the full booking page
+                window.location.href = "{{ url_for('shipment.book') }}";
+            });
+        }
+    });
+</script>
 {% endblock %}
