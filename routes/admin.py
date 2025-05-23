@@ -43,6 +43,9 @@ def login():
         if admin and check_password_hash(admin.password_hash, form.password.data):
             login_user(admin)
             next_page = request.args.get('next')
+            # Validate next_page to prevent open redirect vulnerability
+            if next_page and not next_page.startswith('/'):
+                next_page = None
             return redirect(next_page or url_for('admin.dashboard'))
         else:
             flash('Invalid username or password', 'danger')
