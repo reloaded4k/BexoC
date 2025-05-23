@@ -310,11 +310,11 @@
             
             <div class="text-center border-top border-secondary pt-4">
                 <p class="mb-2">© 2025 BEXO CARGO. All Rights Reserved.</p>
-                <p class="text-muted small mb-0">Africa Global Logistics - Connecting Africa, Delivering Excellence</p>
+                <p class="small mb-0 text-white">Africa Global Logistics - Connecting Africa, Delivering Excellence</p>
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('admin.logout') }}" class="text-muted small">Admin Logout</a>
+                    <a href="{{ url_for('admin.logout') }}" class="text-white small">Admin Logout</a>
                 {% else %}
-                    <a href="{{ url_for('admin.login') }}" class="text-muted small">Admin Access</a>
+                    <a href="{{ url_for('admin.login') }}" class="text-white small">Admin Access</a>
                 {% endif %}
             </div>
         </div>
