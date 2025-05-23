@@ -314,7 +314,7 @@
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('admin.logout') }}" class="text-muted small">Admin Logout</a>
                 {% else %}
-                    <a href="{{ url_for('admin.login') }}" class="text-muted small" style="opacity: 0.6; font-size: 0.75rem; margin-left: 5px;">•</a>
+                    <a href="{{ url_for('admin.login') }}" class="text-muted small">Admin Access</a>
                 {% endif %}
             </div>
         </div>
