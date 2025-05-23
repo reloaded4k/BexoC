@@ -326,6 +326,21 @@
         const navbar = document.querySelector('.navbar');
         navbar.setAttribute('style', 'background-color: var(--primary-color) !important');
         
+        // Make sure the menu items stay white on scroll
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+        
+        // Apply white color initially
+        navLinks.forEach(function(link) {
+            link.setAttribute('style', 'color: #FFFFFF !important');
+        });
+        
+        // Keep them white on scroll
+        window.addEventListener('scroll', function() {
+            navLinks.forEach(function(link) {
+                link.setAttribute('style', 'color: #FFFFFF !important');
+            });
+        });
+        
         // Lazy load images
         const lazyImages = document.querySelectorAll('img.lazy-load');
         if ('IntersectionObserver' in window) {
