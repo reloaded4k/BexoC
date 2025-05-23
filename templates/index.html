@@ -202,7 +202,7 @@
             </div>
             
             <!-- Hero Content -->
-            <div class="col-lg-7 ps-lg-5 text-white">
+            <div class="col-lg-7 ps-lg-5 text-white text-center text-lg-start">
                 <div class="d-inline-block px-3 py-1 rounded-pill" style="background-color: rgba(255, 102, 0, 0.1); color: #FF6600;">
                     <i class="fas fa-globe-africa me-1"></i> Africa to the World Delivery
                 </div>
@@ -210,12 +210,10 @@
                 <h3 class="mb-4">Across 10 African Countries</h3>
                 <p class="lead mb-4">Fast, secure, and reliable shipping solutions for businesses and individuals. Track your packages in real-time.</p>
                 
-                <div class="d-flex gap-3 mb-4">
+                <div class="d-flex gap-3 mb-4 justify-content-center justify-content-lg-start">
                     <a href="{{ url_for('shipment.book') }}" class="btn btn-orange btn-lg px-4">Book Shipment</a>
                     <a href="{{ url_for('main.track') }}" class="btn btn-outline-light btn-lg px-4">Track Shipment</a>
                 </div>
-                
-                <img src="https://img.freepik.com/free-vector/delivery-staff-courier-online-service-app_74855-5901.jpg?w=740&t=st=1705662184~exp=1705662784~hmac=d11d2fe3836003462a99bd22f004b6d59cc3988d6dcbb3c580134031f95134b7" class="img-fluid rounded" alt="Shipping illustration">
             </div>
         </div>
     </div>
@@ -455,63 +453,7 @@
     </div>
 </section>
 
-<!-- Footer Section -->
-<footer class="py-5" style="background-color: #051C39; color: white;">
-    <div class="container">
-        <div class="text-center mb-4">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="BEXO CARGO" style="height: 40px;">
-        </div>
-        <div class="row justify-content-center text-center mb-4">
-            <div class="col-auto mx-2">
-                <a href="{{ url_for('main.index') }}" class="text-white text-decoration-none">Home</a>
-            </div>
-            <div class="col-auto mx-2">
-                <a href="{{ url_for('main.about') }}" class="text-white text-decoration-none">About Us</a>
-            </div>
-            <div class="col-auto mx-2">
-                <a href="{{ url_for('shipment.book') }}" class="text-white text-decoration-none">Book Shipment</a>
-            </div>
-            <div class="col-auto mx-2">
-                <a href="{{ url_for('main.track') }}" class="text-white text-decoration-none">Track Shipment</a>
-            </div>
-            <div class="col-auto mx-2">
-                <a href="{{ url_for('main.contact') }}" class="text-white text-decoration-none">Contact Us</a>
-            </div>
-            <div class="col-auto mx-2">
-                <a href="{{ url_for('main.terms') }}" class="text-white text-decoration-none">Terms & Conditions</a>
-            </div>
-            <div class="col-auto mx-2">
-                <a href="{{ url_for('main.privacy') }}" class="text-white text-decoration-none">Privacy Policy</a>
-            </div>
-            <div class="col-auto mx-2">
-                <a href="{{ url_for('main.shipping_terms') }}" class="text-white text-decoration-none">Shipping Terms</a>
-            </div>
-        </div>
-        
-        <div class="d-flex justify-content-center mb-4">
-            <a href="#" class="mx-2 d-inline-flex align-items-center justify-content-center bg-dark rounded-circle" style="width: 40px; height: 40px;">
-                <i class="fab fa-facebook-f text-white"></i>
-            </a>
-            <a href="#" class="mx-2 d-inline-flex align-items-center justify-content-center bg-dark rounded-circle" style="width: 40px; height: 40px;">
-                <i class="fab fa-twitter text-white"></i>
-            </a>
-            <a href="#" class="mx-2 d-inline-flex align-items-center justify-content-center bg-dark rounded-circle" style="width: 40px; height: 40px;">
-                <i class="fab fa-instagram text-white"></i>
-            </a>
-            <a href="#" class="mx-2 d-inline-flex align-items-center justify-content-center bg-dark rounded-circle" style="width: 40px; height: 40px;">
-                <i class="fab fa-linkedin-in text-white"></i>
-            </a>
-        </div>
-        
-        <div class="text-center border-top border-secondary pt-4">
-            <p class="mb-2">© 2025 BEXO CARGO. All Rights Reserved.</p>
-            <p class="text-muted small mb-0">Africa Global Logistics - Connecting Africa, Delivering Excellence</p>
-            {% if current_user.is_authenticated %}
-                <a href="{{ url_for('admin.logout') }}" class="text-muted small">Logout</a>
-            {% endif %}
-        </div>
-    </div>
-</footer>
+{% set hide_footer = true %}
 {% endblock %}
 
 {% block extra_js %}
