@@ -1,0 +1,106 @@
+You are tasked with building a **Shipping and Parcel Tracking Web Application**. Before you begin coding, provide a **comprehensive development plan** covering the following:
+
+1. Suggested tech stack Replit understands and can use efficiently
+2. File structure and route organisation
+3. Database models/tables or data structure
+4. UI component structure
+5. Step-by-step development workflow
+6. Deployment/export method for use outside Replit
+
+Once you have provided the plan, ask me for confirmation before proceeding.
+
+⚠️ Do not begin development until I approve the plan. 
+
+🎯 App Objective:
+Build a stable, scalable logistics app for managing shipment bookings and parcel tracking with a simple admin backend. The app must be clean, functional, and easy to update.
+
+🧠 Replit may choose any stack it best understands and supports, as long as the result is:
+- Fast to build
+- Easy to host outside Replit
+- Compatible with external database/email configurations
+- Cleanly structured with clear routes
+
+✅ **Must Include These Features and Only These Features**:
+
+1. **ROUTES & PAGES**
+
+**Home Page "/"**  
+Sections:
+- How It Works
+- Services
+- Testimonials
+- Call-to-actions: Book a Shipment, Track a Shipment
+
+**Static Pages**:
+- /about
+- /terms
+- /privacy
+- /shipping-terms
+
+**Contact Page "/contact"**  
+Simple form:
+- Name, Email, Address, Contact Number, Message
+- Submits data to backend with a confirmation message
+
+**Book a Shipment "/book"**
+Form includes:
+- Sender: Name, Email, Address, Contact Number (all required)
+- Recipient: Name, Email, Address, Contact Number (all required)
+- Cargo: Name, Description (required)
+- Cargo Dimensions (Length, Width, Height in cm) – optional
+- Weight – optional  
+On submit:
+- Save to backend
+- Send email with full form data to **support@bexocargo.com**
+- Show "Booking Received" confirmation page
+
+**Track Shipment "/track"**
+- Enter tracking number
+- Display if matched:
+  - Sender/Recipient info
+  - Cargo details
+  - Destination & current status
+  - Tracking history with timestamped notes
+
+2. **ADMIN PANEL "/admin"**
+- Username/password login (Flask-Login or similar)
+- Admin Dashboard Features:
+  - View bookings
+  - Assign & manage tracking numbers
+  - Update status:
+    - Booking Received
+    - Processing
+    - Dispatched
+    - In Transit
+    - Out For Delivery
+    - Custom Clearance Export
+    - Custom Clearance Import
+    - Shipment On Hold
+    - Shipment Pending Release
+    - Shipment On Hold (Docs Request)
+    - Cancelled
+  - Add status update notes with custom timestamps
+  - Edit sender/recipient data and tracking timestamps
+
+3. **UI/UX DESIGN GUIDELINES**
+Implement a **modern, user-friendly interface**:
+- Clean, light-coloured background for clarity
+- Harmonious colour palette enhancing usability
+- Smooth scrolling and seamless section/page transitions
+- Intuitive layout prioritising quick access and easy navigation
+
+4. **OTHER REQUIREMENTS**
+- Routes and logic must be clean and modular
+- Must not break on form submission or refresh
+- Must support exporting and deploying on an external host
+- Use environment variables where appropriate
+- Include full README or setup instructions
+
+❌ **Do NOT Include**:
+- User registration/login (except admin)
+- Payment gateways
+- Tracking maps
+- Chatbots, notifications, or animations outside scope
+
+Once the full plan is ready, ask:  
+**“Shall I begin building this application now based on this plan?”**
