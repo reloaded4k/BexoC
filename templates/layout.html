@@ -113,16 +113,16 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg {% if request.path == '/' %}navbar-dark{% else %}navbar-light bg-white{% endif %} fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #051C39; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bexo Cargo Logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bexo Cargo Logo" style="height: 35px;">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{{ url_for('main.index') }}">Home</a>
                     </li>
@@ -139,8 +139,12 @@
                         <a class="nav-link {% if request.path == '/track' %}active{% endif %}" href="{{ url_for('main.track') }}">Track</a>
                     </li>
                 </ul>
-                <div class="ms-lg-3 mt-3 mt-lg-0">
+                <div class="d-flex">
                     <a href="{{ url_for('shipment.book') }}" class="btn btn-orange">Book Now</a>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-light ms-2">Admin Dashboard</a>
+                        <a href="{{ url_for('admin.logout') }}" class="btn btn-outline-light ms-2">Logout</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
