@@ -188,11 +188,11 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label for="cargo_height" class="form-label">Height (cm)</label>
-                                            {{ edit_form.cargo_height(class="form-control", id="cargo_height") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.cargo_height(class="form-control", id="cargo_height") }}{% endif %}
                                         </div>
                                         <div class="col-md-3">
                                             <label for="cargo_weight" class="form-label">Weight (kg)</label>
-                                            {{ edit_form.cargo_weight(class="form-control", id="cargo_weight") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.cargo_weight(class="form-control", id="cargo_weight") }}{% endif %}
                                         </div>
                                     </div>
                                     
