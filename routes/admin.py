@@ -45,8 +45,13 @@ def login():
             login_user(admin)
             next_page = request.args.get('next')
             # Validate next_page to prevent open redirect vulnerability
-            if next_page and not next_page.startswith('/'):
-                next_page = None
+            if next_page:
+                # Only allow relative URLs within our site
+                if not next_page.startswith('/'):
+                    next_page = None
+                # Further protection: ensure no external redirects using double-slash
+                elif '//' in next_page:
+                    next_page = None
             return redirect(next_page or url_for('admin.dashboard'))
         else:
             flash('Invalid username or password', 'danger')
