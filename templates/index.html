@@ -154,12 +154,12 @@
         <div class="row align-items-center py-5">
             <!-- Booking Form -->
             <div class="col-lg-5 mb-4 mb-lg-0">
-                <div class="bg-white rounded p-4">
+                <div class="bg-white rounded-4 p-4 shadow-lg" style="border-radius: 20px;">
                     <h2 class="fw-bold mb-4 fs-4">Book Your Cargo in Minutes</h2>
                     <form action="{{ url_for('shipment.book') }}" method="GET">
                         <div class="mb-3">
-                            <label for="origin" class="form-label">Origin Country</label>
-                            <select class="form-select form-select-lg bg-light" id="origin" required>
+                            <label for="origin" class="form-label fw-medium">Origin Country</label>
+                            <select class="form-select form-select-lg border-0 rounded-3" id="origin" required style="background-color: #f8f9fa; padding: 12px 15px;">
                                 <option value="" selected disabled>Select country</option>
                                 <option value="us">United States</option>
                                 <option value="uk">United Kingdom</option>
@@ -170,19 +170,19 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="destination" class="form-label">Destination Country</label>
-                            <input type="text" class="form-control form-control-lg bg-light" id="destination" placeholder="Enter destination country">
+                            <label for="destination" class="form-label fw-medium">Destination Country</label>
+                            <input type="text" class="form-control form-control-lg border-0 rounded-3" id="destination" placeholder="Enter destination country" style="background-color: #f8f9fa; padding: 12px 15px;">
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="weight" class="form-label">Weight (kg)</label>
-                                <input type="number" class="form-control form-control-lg bg-light" id="weight" placeholder="Enter weight">
+                                <label for="weight" class="form-label fw-medium">Weight (kg)</label>
+                                <input type="number" class="form-control form-control-lg border-0 rounded-3" id="weight" placeholder="Enter weight" style="background-color: #f8f9fa; padding: 12px 15px;">
                             </div>
                             
                             <div class="col-md-6 mb-3">
-                                <label for="cargo-type" class="form-label">Cargo Type</label>
-                                <select class="form-select form-select-lg bg-light" id="cargo-type">
+                                <label for="cargo-type" class="form-label fw-medium">Cargo Type</label>
+                                <select class="form-select form-select-lg border-0 rounded-3" id="cargo-type" style="background-color: #f8f9fa; padding: 12px 15px;">
                                     <option value="" selected disabled>Select type</option>
                                     <option value="documents">Documents</option>
                                     <option value="electronics">Electronics</option>
@@ -193,10 +193,10 @@
                             </div>
                         </div>
                         
-                        <button type="submit" class="btn btn-orange w-100 py-3 fw-bold">Book Now</button>
+                        <button type="submit" class="btn btn-orange w-100 py-3 fw-bold rounded-3" style="border-radius: 10px; font-size: 18px;">Book Now</button>
                     </form>
                     <div class="text-center mt-2">
-                        <small class="text-muted">Instant confirmation · Secure process</small>
+                        <small class="text-muted">✓ Instant confirmation · ✓ Secure process</small>
                     </div>
                 </div>
             </div>
@@ -229,59 +229,87 @@
         
         <div class="row g-4 justify-content-center">
             <div class="col-md-3 text-center">
-                <div style="position: relative; display: inline-block; margin-bottom: 20px;">
-                    <div style="width: 80px; height: 80px; background-color: #f8f9fa; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20.5 7.5H4.5C3.4 7.5 2.5 8.4 2.5 9.5V18.5C2.5 19.6 3.4 20.5 4.5 20.5H20.5C21.6 20.5 22.5 19.6 22.5 18.5V9.5C22.5 8.4 21.6 7.5 20.5 7.5Z" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2.5 13.5H22.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                <div class="position-relative mb-4">
+                    <div class="shadow-lg" style="width: 100px; height: 100px; background-color: #f8f9fa; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; border: 2px solid #eee; overflow: hidden;">
+                        <!-- Icon placeholder for Book Online (you can replace this with your icon) -->
+                        <div style="width: 60px; height: 60px; background-color: #fff0e6; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.5 7.5H4.5C3.4 7.5 2.5 8.4 2.5 9.5V18.5C2.5 19.6 3.4 20.5 4.5 20.5H20.5C21.6 20.5 22.5 19.6 22.5 18.5V9.5C22.5 8.4 21.6 7.5 20.5 7.5Z" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2.5 13.5H22.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div style="position: absolute; top: -5px; left: -5px; width: 30px; height: 30px; background-color: #FF6600; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">1</div>
+                    <div style="position: absolute; top: -5px; left: 5px; width: 35px; height: 35px; background-color: #FF6600; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">1</div>
                 </div>
                 <h4 class="fw-bold">Book Online</h4>
                 <p class="text-muted">Fill our simple booking form to schedule a pickup.</p>
             </div>
             
             <div class="col-md-3 text-center">
-                <div style="position: relative; display: inline-block; margin-bottom: 20px;">
-                    <div style="width: 80px; height: 80px; background-color: #f8f9fa; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21.5 16.5L12.5 21.5L3.5 16.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M21.5 12.5L12.5 17.5L3.5 12.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M21.5 8.5L12.5 13.5L3.5 8.5L12.5 3.5L21.5 8.5Z" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                <div class="position-relative mb-4">
+                    <div class="shadow-lg" style="width: 100px; height: 100px; background-color: #f8f9fa; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; border: 2px solid #eee; overflow: hidden;">
+                        <!-- Icon placeholder for We Collect (you can replace this with your icon) -->
+                        <div style="width: 60px; height: 60px; background-color: #fff0e6; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.5 16.5L12.5 21.5L3.5 16.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M21.5 12.5L12.5 17.5L3.5 12.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M21.5 8.5L12.5 13.5L3.5 8.5L12.5 3.5L21.5 8.5Z" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div style="position: absolute; top: -5px; left: -5px; width: 30px; height: 30px; background-color: #FF6600; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">2</div>
+                    <div style="position: absolute; top: -5px; left: 5px; width: 35px; height: 35px; background-color: #FF6600; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">2</div>
                 </div>
                 <h4 class="fw-bold">We Collect</h4>
                 <p class="text-muted">Our team collects your cargo from your location.</p>
             </div>
             
             <div class="col-md-3 text-center">
-                <div style="position: relative; display: inline-block; margin-bottom: 20px;">
-                    <div style="width: 80px; height: 80px; background-color: #f8f9fa; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22.5 2.5L12.5 12.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M22.5 2.5L15.5 22.5L12.5 12.5L2.5 9.5L22.5 2.5Z" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                <div class="position-relative mb-4">
+                    <div class="shadow-lg" style="width: 100px; height: 100px; background-color: #f8f9fa; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; border: 2px solid #eee; overflow: hidden;">
+                        <!-- Icon placeholder for We Ship (you can replace this with your icon) -->
+                        <div style="width: 60px; height: 60px; background-color: #fff0e6; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.5 2.5L12.5 12.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M22.5 2.5L15.5 22.5L12.5 12.5L2.5 9.5L22.5 2.5Z" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div style="position: absolute; top: -5px; left: -5px; width: 30px; height: 30px; background-color: #FF6600; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">3</div>
+                    <div style="position: absolute; top: -5px; left: 5px; width: 35px; height: 35px; background-color: #FF6600; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">3</div>
                 </div>
                 <h4 class="fw-bold">We Ship</h4>
                 <p class="text-muted">Cargo is shipped securely via our air courier network.</p>
             </div>
             
             <div class="col-md-3 text-center">
-                <div style="position: relative; display: inline-block; margin-bottom: 20px;">
-                    <div style="width: 80px; height: 80px; background-color: #f8f9fa; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22.5 6.5L9.5 19.5L3.5 13.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                <div class="position-relative mb-4">
+                    <div class="shadow-lg" style="width: 100px; height: 100px; background-color: #f8f9fa; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; border: 2px solid #eee; overflow: hidden;">
+                        <!-- Icon placeholder for Delivered (you can replace this with your icon) -->
+                        <div style="width: 60px; height: 60px; background-color: #fff0e6; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.5 6.5L9.5 19.5L3.5 13.5" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div style="position: absolute; top: -5px; left: -5px; width: 30px; height: 30px; background-color: #FF6600; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">4</div>
+                    <div style="position: absolute; top: -5px; left: 5px; width: 35px; height: 35px; background-color: #FF6600; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">4</div>
                 </div>
                 <h4 class="fw-bold">Delivered</h4>
                 <p class="text-muted">Recipient receives the shipment safely and on time.</p>
+            </div>
+        </div>
+        
+        <!-- Instructions for icon replacement -->
+        <div class="row mt-4 d-none">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h5 class="fw-bold">Icon Replacement Instructions:</h5>
+                    <p>To replace the icons in the "How It Works" section:</p>
+                    <ol>
+                        <li>Create 4 icons for Book Online, We Collect, We Ship, and Delivered</li>
+                        <li>Each icon should be formatted as SVG or embedded in a div with dimensions 60x60px</li>
+                        <li>Replace the placeholder SVG content in each section</li>
+                        <li>You can customize the background color (#fff0e6) and icon color (#FF6600) as needed</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>

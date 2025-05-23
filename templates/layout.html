@@ -116,7 +116,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #051C39; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bexo Cargo Logo" style="height: 35px; filter: brightness(0) invert(1);">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bexo Cargo Logo" style="height: 45px; filter: brightness(0) invert(1);">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -150,15 +150,32 @@
         </div>
     </nav>
     
+    <style>
+    /* Ensure navbar links always remain white */
+    .navbar-dark .navbar-nav .nav-link {
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+    .navbar-dark .navbar-nav .nav-link:hover,
+    .navbar-dark .navbar-nav .nav-link:focus {
+        color: #fff !important;
+    }
+    </style>
+    
     <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Force navbar background color to always be dark blue
+        var navbar = document.querySelector('.navbar');
+        navbar.style.backgroundColor = '#051C39';
+        
         window.addEventListener('scroll', function() {
-            var navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.style.backgroundColor = '#051C39';
-            } else {
-                navbar.style.backgroundColor = '#051C39';
-            }
+            // Ensure navbar remains dark blue with white text on scroll
+            navbar.style.backgroundColor = '#051C39';
+            
+            // Ensure all nav links remain white
+            var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            navLinks.forEach(function(link) {
+                link.style.color = 'rgba(255, 255, 255, 0.9)';
+            });
         });
     });
     </script>
