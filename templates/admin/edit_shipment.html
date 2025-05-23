@@ -123,26 +123,26 @@
                             </div>
                             <div class="card-body">
                                 <form action="{{ url_for('admin.edit_shipment', tracking_number=shipment.tracking_number) }}" method="POST">
-                                    {{ edit_form.csrf_token if edit_form }}
+                                    {% if edit_form %}{{ edit_form.csrf_token }}{% endif %}
                                     
                                     <!-- Sender Information -->
                                     <h6 class="mb-3">Sender Information</h6>
                                     <div class="row g-3 mb-4">
                                         <div class="col-md-6">
                                             <label for="sender_name" class="form-label">Name</label>
-                                            {{ edit_form.sender_name(class="form-control", id="sender_name") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.sender_name(class="form-control", id="sender_name") }}{% endif %}
                                         </div>
                                         <div class="col-md-6">
                                             <label for="sender_email" class="form-label">Email</label>
-                                            {{ edit_form.sender_email(class="form-control", id="sender_email") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.sender_email(class="form-control", id="sender_email") }}{% endif %}
                                         </div>
                                         <div class="col-md-6">
                                             <label for="sender_contact" class="form-label">Contact</label>
-                                            {{ edit_form.sender_contact(class="form-control", id="sender_contact") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.sender_contact(class="form-control", id="sender_contact") }}{% endif %}
                                         </div>
                                         <div class="col-md-6">
                                             <label for="sender_address" class="form-label">Address</label>
-                                            {{ edit_form.sender_address(class="form-control", id="sender_address", rows="3") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.sender_address(class="form-control", id="sender_address", rows="3") }}{% endif %}
                                         </div>
                                     </div>
                                     
