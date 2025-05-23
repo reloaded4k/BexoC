@@ -1,0 +1,126 @@
+{% extends 'layout.html' %}
+
+{% block title %}Contact Us - Bexo Cargo{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 mb-4">Contact Us</h1>
+            <p class="lead">Have questions or need assistance? We're here to help!</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-5 mb-5 mb-lg-0">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <h3 class="mb-4">Get In Touch</h3>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h5>Head Office</h5>
+                            <p class="mb-0">123 Shipping Lane,<br>Cargo City, 10001<br>United States</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-phone fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h5>Phone</h5>
+                            <p class="mb-0">+1 (800) SHIP-BEXO</p>
+                            <p class="mb-0">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-envelope fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h5>Email</h5>
+                            <p class="mb-0">info@bexocargo.com</p>
+                            <p class="mb-0">support@bexocargo.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-clock fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h5>Business Hours</h5>
+                            <p class="mb-0">Monday - Friday: 8:00 AM - 6:00 PM</p>
+                            <p class="mb-0">Saturday: 9:00 AM - 1:00 PM</p>
+                            <p class="mb-0">Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-7">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <h3 class="mb-4">Send a Message</h3>
+                    
+                    <form class="needs-validation" method="POST" action="{{ url_for('main.contact') }}" novalidate>
+                        {{ form.csrf_token }}
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                                {{ form.name(class="form-control", id="name", placeholder="Your name") }}
+                                <div class="invalid-feedback">
+                                    Please enter your name.
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                {{ form.email(class="form-control", id="email", placeholder="Your email") }}
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address.
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 mb-3">
+                                <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
+                                {{ form.address(class="form-control", id="address", rows="3", placeholder="Your address") }}
+                                <div class="invalid-feedback">
+                                    Please enter your address.
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 mb-3">
+                                <label for="contact_number" class="form-label">Contact Number <span class="text-danger">*</span></label>
+                                {{ form.contact_number(class="form-control", id="contact_number", placeholder="Your contact number") }}
+                                <div class="invalid-feedback">
+                                    Please enter your contact number.
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 mb-3">
+                                <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
+                                {{ form.message(class="form-control", id="message", rows="5", placeholder="Your message") }}
+                                <div class="invalid-feedback">
+                                    Please enter your message.
+                                </div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends 'layout.html' %}
+
+{% block title %}Track Your Shipment - Bexo Cargo{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/tracking.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 mb-4">Track Your Shipment</h1>
+            <p class="lead">Enter your tracking number to check the status of your shipment.</p>
+        </div>
+    </div>
+    
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <form id="tracking-form" method="POST" action="{{ url_for('main.track') }}">
+                        {{ form.csrf_token }}
+                        <div class="input-group">
+                            {{ form.tracking_number(class="form-control form-control-lg", placeholder="Enter tracking number (e.g., BX1234ABCD)", required=True) }}
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                <i class="fas fa-search me-2"></i>Track
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tracking Results -->
+    <div id="tracking-result">
+        {% if shipment %}
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow mb-4">
+                    <div class="card-header bg-primary text-white p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0">Shipment Details</h3>
+                            <span class="badge bg-light text-primary fs-6">{{ shipment.tracking_number }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <h4>Sender Information</h4>
+                                <p class="mb-1"><strong>Name:</strong> {{ shipment.sender_name }}</p>
+                                <p class="mb-1"><strong>Email:</strong> {{ shipment.sender_email }}</p>
+                                <p class="mb-1"><strong>Address:</strong> {{ shipment.sender_address }}</p>
+                                <p><strong>Contact:</strong> {{ shipment.sender_contact }}</p>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <h4>Recipient Information</h4>
+                                <p class="mb-1"><strong>Name:</strong> {{ shipment.recipient_name }}</p>
+                                <p class="mb-1"><strong>Email:</strong> {{ shipment.recipient_email }}</p>
+                                <p class="mb-1"><strong>Address:</strong> {{ shipment.recipient_address }}</p>
+                                <p><strong>Contact:</strong> {{ shipment.recipient_contact }}</p>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <h4>Cargo Information</h4>
+                                <p class="mb-1"><strong>Name:</strong> {{ shipment.cargo_name }}</p>
+                                <p class="mb-1"><strong>Description:</strong> {{ shipment.cargo_description }}</p>
+                                <p class="mb-1"><strong>Dimensions:</strong> 
+                                    {% if shipment.cargo_length and shipment.cargo_width and shipment.cargo_height %}
+                                        {{ shipment.cargo_length }} x {{ shipment.cargo_width }} x {{ shipment.cargo_height }} cm
+                                    {% else %}
+                                        Not specified
+                                    {% endif %}
+                                </p>
+                                <p><strong>Weight:</strong> 
+                                    {% if shipment.cargo_weight %}
+                                        {{ shipment.cargo_weight }} kg
+                                    {% else %}
+                                        Not specified
+                                    {% endif %}
+                                </p>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <h4>Shipment Status</h4>
+                                <div class="d-flex align-items-center mb-3">
+                                    <span class="status-badge 
+                                        {% if 'Delivered' in shipment.current_status %}
+                                            bg-success text-white
+                                        {% elif 'Transit' in shipment.current_status or 'Dispatched' in shipment.current_status %}
+                                            status-transit
+                                        {% elif 'Processing' in shipment.current_status %}
+                                            status-processing
+                                        {% elif 'Hold' in shipment.current_status %}
+                                            status-hold
+                                        {% else %}
+                                            status-received
+                                        {% endif %}
+                                        ">
+                                        {{ shipment.current_status }}
+                                    </span>
+                                </div>
+                                <p class="mb-1"><strong>Booked On:</strong> {{ shipment.created_at.strftime('%B %d, %Y') }}</p>
+                                <p><strong>Last Updated:</strong> 
+                                    {% if shipment.tracking_history %}
+                                        {{ shipment.tracking_history[-1].timestamp.strftime('%B %d, %Y at %H:%M') }}
+                                    {% else %}
+                                        {{ shipment.created_at.strftime('%B %d, %Y at %H:%M') }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tracking Timeline -->
+                <div class="card border-0 shadow">
+                    <div class="card-header bg-primary text-white p-3">
+                        <h3 class="mb-0">Tracking History</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="timeline">
+                            {% for history in shipment.tracking_history|sort(attribute='timestamp', reverse=True) %}
+                            <div class="timeline-item">
+                                <div class="timeline-date">{{ history.timestamp.strftime('%B %d, %Y at %H:%M') }}</div>
+                                <div class="timeline-content">
+                                    <h5>{{ history.status }}</h5>
+                                    <p class="mb-0">{{ history.notes }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            
+                            <!-- Initial booking entry -->
+                            <div class="timeline-item">
+                                <div class="timeline-date">{{ shipment.created_at.strftime('%B %d, %Y at %H:%M') }}</div>
+                                <div class="timeline-content">
+                                    <h5>Booking Received</h5>
+                                    <p class="mb-0">Your shipment booking has been received and is being processed.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% elif request.method == 'POST' %}
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="alert alert-danger text-center p-4">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                    <h4>Tracking Number Not Found</h4>
+                    <p>We couldn't find any shipment with the provided tracking number. Please check the number and try again.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Tracking Information -->
+    {% if not shipment %}
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <h3 class="mb-4">How to Track Your Shipment</h3>
+                    <p>To track your shipment, you'll need your tracking number, which was provided to you when you booked your shipment.</p>
+                    <p>The tracking number typically starts with "BX" followed by alphanumeric characters (e.g., BX1234ABCD).</p>
+                    
+                    <h4 class="mt-4 mb-3">Where to Find Your Tracking Number</h4>
+                    <ul>
+                        <li>In the confirmation email sent to you after booking</li>
+                        <li>In your booking receipt</li>
+                        <li>By contacting our customer service</li>
+                    </ul>
+                    
+                    <h4 class="mt-4 mb-3">Tracking Information</h4>
+                    <p>Our tracking system provides you with:</p>
+                    <ul>
+                        <li>Current status of your shipment</li>
+                        <li>Complete tracking history with timestamps</li>
+                        <li>Sender and recipient information</li>
+                        <li>Cargo details</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

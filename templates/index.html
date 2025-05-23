@@ -1,0 +1,199 @@
+{% extends 'layout.html' %}
+
+{% block title %}Bexo Cargo - Reliable Shipping & Logistics Solutions{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Your Cargo, Our Priority</h1>
+            <p>Reliable shipping and logistics solutions for businesses and individuals worldwide. Track your shipments and book new cargo deliveries with ease.</p>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ url_for('shipment.book') }}" class="btn btn-primary">Book a Shipment</a>
+                <a href="{{ url_for('main.track') }}" class="btn btn-outline-light">Track Your Cargo</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="section" id="how-it-works">
+    <div class="container">
+        <div class="section-title">
+            <h2>How It Works</h2>
+            <p>Simple steps to ship your cargo with us</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <i class="fas fa-box-open fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="card-title">1. Book</h3>
+                        <p class="card-text">Complete our simple booking form with details about your shipment and we'll take care of the rest.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <i class="fas fa-shipping-fast fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="card-title">2. Ship</h3>
+                        <p class="card-text">Our team picks up your cargo and ensures it's safely transported to its destination.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <i class="fas fa-search-location fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="card-title">3. Track</h3>
+                        <p class="card-text">Monitor your shipment's journey in real-time using our advanced tracking system.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="section bg-light" id="services">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Services</h2>
+            <p>We offer comprehensive logistics solutions tailored to your needs</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-truck fa-2x text-primary me-3"></i>
+                            <h4 class="card-title mb-0">Ground Shipping</h4>
+                        </div>
+                        <p class="card-text">Efficient and cost-effective ground transportation for your domestic shipments with reliable delivery times.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-plane fa-2x text-primary me-3"></i>
+                            <h4 class="card-title mb-0">Air Freight</h4>
+                        </div>
+                        <p class="card-text">Expedited air shipping solutions for time-sensitive cargo delivering to international destinations.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-ship fa-2x text-primary me-3"></i>
+                            <h4 class="card-title mb-0">Ocean Freight</h4>
+                        </div>
+                        <p class="card-text">Reliable sea freight services for large shipments with competitive rates and global coverage.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-warehouse fa-2x text-primary me-3"></i>
+                            <h4 class="card-title mb-0">Warehousing</h4>
+                        </div>
+                        <p class="card-text">Secure storage facilities with inventory management to optimize your supply chain.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-file-invoice fa-2x text-primary me-3"></i>
+                            <h4 class="card-title mb-0">Customs Clearance</h4>
+                        </div>
+                        <p class="card-text">Expert assistance with customs documentation and regulatory compliance for smooth border crossings.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-box fa-2x text-primary me-3"></i>
+                            <h4 class="card-title mb-0">Specialized Cargo</h4>
+                        </div>
+                        <p class="card-text">Special handling for oversized, fragile, or temperature-sensitive items requiring extra care.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="section" id="testimonials">
+    <div class="container">
+        <div class="section-title">
+            <h2>Testimonials</h2>
+            <p>What our clients say about our services</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial">
+                    <p class="testimonial-text">"Bexo Cargo has consistently delivered our products on time and in perfect condition. Their tracking system gives us peace of mind knowing exactly where our shipments are."</p>
+                    <div class="testimonial-author">John Smith</div>
+                    <div class="text-muted">CEO, TechGlobal Inc.</div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="testimonial">
+                    <p class="testimonial-text">"We've been using Bexo Cargo for our international shipments for over 3 years now. Their customer service is exceptional and they always find solutions to our logistics challenges."</p>
+                    <div class="testimonial-author">Sarah Johnson</div>
+                    <div class="text-muted">Operations Manager, Fashion Retailers Ltd.</div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="testimonial">
+                    <p class="testimonial-text">"As a small business owner, I appreciate Bexo Cargo's transparent pricing and reliable service. They've made shipping my products to customers around the world hassle-free."</p>
+                    <div class="testimonial-author">Michael Chen</div>
+                    <div class="text-muted">Owner, Artisan Crafts</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Ship Your Cargo?</h2>
+        <p class="lead mb-4">Experience hassle-free shipping with our expert team handling your cargo from pickup to delivery.</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('shipment.book') }}" class="btn btn-light btn-lg">Book a Shipment</a>
+            <a href="{{ url_for('main.track') }}" class="btn btn-outline-light btn-lg">Track Your Cargo</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
