@@ -5,6 +5,7 @@ from forms import LoginForm, TrackingUpdateForm, EditShipmentForm
 from app import db
 from werkzeug.security import check_password_hash
 from datetime import datetime
+from urllib.parse import urlparse, urljoin
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -44,14 +45,19 @@ def login():
         if admin and check_password_hash(admin.password_hash, password):
             login_user(admin)
             next_page = request.args.get('next')
-            # Validate next_page to prevent open redirect vulnerability
+            # Validate next_page to prevent open redirect vulnerability using urlparse
             if next_page:
-                # Only allow relative URLs within our site
-                if not next_page.startswith('/'):
+                # Create a safe function to validate redirects
+                def is_safe_redirect_url(target):
+                    host_url = request.host_url
+                    redirect_url = urljoin(host_url, target)
+                    # Validate that the redirect URL has the same host as our application
+                    return urlparse(redirect_url).netloc == urlparse(host_url).netloc
+                
+                # Only redirect to safe URLs
+                if not is_safe_redirect_url(next_page):
                     next_page = None
-                # Further protection: ensure no external redirects using double-slash
-                elif '//' in next_page:
-                    next_page = None
+                    
             return redirect(next_page or url_for('admin.dashboard'))
         else:
             flash('Invalid username or password', 'danger')
