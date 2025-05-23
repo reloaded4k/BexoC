@@ -221,7 +221,7 @@
                         <a class="nav-link {% if 'services' in request.path %}active{% endif %}" href="{{ url_for('main.index') }}#services">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if 'testimonials' in request.path %}active{% endif %}" href="{{ url_for('main.index') }}#testimonials">Testimonials</a>
+                        <a class="nav-link {% if request.path == '/about' %}active{% endif %}" href="{{ url_for('main.about') }}">About Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/track' %}active{% endif %}" href="{{ url_for('main.track') }}">Track</a>
