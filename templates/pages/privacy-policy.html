@@ -1,0 +1,379 @@
+{% extends 'layout.html' %}
+
+{% block title %}Privacy Policy - Bexo Cargo{% endblock %}
+
+{% block extra_css %}
+<style>
+    .privacy-header {
+        background-color: #051C39;
+        color: white;
+        padding: 6rem 0 3rem;
+        position: relative;
+        margin-bottom: 3rem;
+    }
+    
+    .privacy-header h1 {
+        font-weight: 700;
+        font-size: 3rem;
+        position: relative;
+    }
+    
+    .privacy-header h1:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+        width: 80px;
+        height: 4px;
+        background-color: #FF6600;
+    }
+    
+    .privacy-section {
+        padding: 3rem 0 6rem;
+    }
+    
+    .last-updated {
+        color: #6c757d;
+        font-style: italic;
+        margin-bottom: 2rem;
+    }
+    
+    .policy-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .policy-card.highlighted {
+        border-left: 4px solid #FF6600;
+    }
+    
+    .policy-title {
+        color: #051C39;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding-left: 40px;
+    }
+    
+    .policy-title i {
+        color: #FF6600;
+        font-size: 1.5rem;
+        position: absolute;
+        left: 0;
+        top: 3px;
+    }
+    
+    .policy-subtitle {
+        color: #051C39;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .data-table th, .data-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .data-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: #051C39;
+    }
+    
+    .data-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .data-list {
+        list-style-position: inside;
+        padding-left: 0;
+    }
+    
+    .data-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .data-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .data-list-title {
+        font-weight: 600;
+        color: #051C39;
+    }
+    
+    .contact-info {
+        background-color: #051C39;
+        color: white;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .contact-info h3 {
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+    
+    .contact-info p {
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .contact-info i {
+        color: #FF6600;
+        margin-right: 0.8rem;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .security-measures {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+    
+    .security-measures ul {
+        margin-bottom: 0;
+    }
+    
+    .toc {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        position: sticky;
+        top: 100px;
+    }
+    
+    .toc ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin-bottom: 0;
+    }
+    
+    .toc li {
+        margin-bottom: 0.8rem;
+    }
+    
+    .toc li:last-child {
+        margin-bottom: 0;
+    }
+    
+    .toc a {
+        color: #051C39;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .toc a:hover {
+        color: #FF6600;
+        padding-left: 5px;
+    }
+    
+    .toc-title {
+        color: #051C39;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .section-anchor {
+        display: block;
+        position: relative;
+        top: -100px;
+        visibility: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="privacy-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1>Privacy Policy</h1>
+                <p class="lead mt-4">How we collect, use, and protect your information</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="privacy-section">
+    <div class="container">
+        <p class="last-updated">Last Updated: January 2025</p>
+        
+        <div class="row">
+            <div class="col-lg-4 order-lg-2 mb-4">
+                <div class="toc">
+                    <h4 class="toc-title">Table of Contents</h4>
+                    <ul>
+                        <li><a href="#introduction">1. Introduction</a></li>
+                        <li><a href="#information">2. Information We Collect</a></li>
+                        <li><a href="#how-we-use">3. How We Use Your Information</a></li>
+                        <li><a href="#data-sharing">4. Data Sharing & Disclosure</a></li>
+                        <li><a href="#international">5. International Data Transfers</a></li>
+                        <li><a href="#data-security">6. Data Security</a></li>
+                        <li><a href="#your-rights">7. Your Rights</a></li>
+                        <li><a href="#cookies">8. Cookies & Tracking Technologies</a></li>
+                        <li><a href="#children">9. Children's Privacy</a></li>
+                        <li><a href="#updates">10. Policy Updates</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-lg-8 order-lg-1">
+                <span id="introduction" class="section-anchor"></span>
+                <div class="policy-card highlighted">
+                    <h2 class="policy-title"><i class="fas fa-info-circle"></i> Introduction</h2>
+                    <p>Bexocargo ("we," "us," or "our") respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our logistics and cargo services across Cameroon, Nigeria, Ghana, Senegal, South Africa, Ivory Coast, Mali, Kenya, Gabon, and Equatorial Guinea, as well as through our headquarters in France.</p>
+                    <p class="mt-3">By accessing our services, you agree to the terms of this Privacy Policy.</p>
+                </div>
+                
+                <span id="information" class="section-anchor"></span>
+                <div class="policy-card">
+                    <h2 class="policy-title"><i class="fas fa-database"></i> Information We Collect</h2>
+                    <p>We may collect the following types of information:</p>
+                    
+                    <h4 class="policy-subtitle">Personal Data</h4>
+                    <ul class="data-list">
+                        <li>Name, email, phone number, and address</li>
+                        <li>Government-issued ID (for customs clearance)</li>
+                        <li>Payment details (processed securely via third-party providers)</li>
+                        <li>Shipment details (contents, weight, dimensions, tracking data)</li>
+                    </ul>
+                    
+                    <h4 class="policy-subtitle">Non-Personal Data</h4>
+                    <ul class="data-list">
+                        <li>Browser type, IP address, device information</li>
+                        <li>Website usage data (cookies, analytics)</li>
+                    </ul>
+                </div>
+                
+                <span id="how-we-use" class="section-anchor"></span>
+                <div class="policy-card">
+                    <h2 class="policy-title"><i class="fas fa-tasks"></i> How We Use Your Information</h2>
+                    <p>We use collected data for:</p>
+                    
+                    <ul class="data-list">
+                        <li>Processing and delivering shipments</li>
+                        <li>Customs clearance and regulatory compliance</li>
+                        <li>Customer support and issue resolution</li>
+                        <li>Service improvements and analytics</li>
+                        <li>Fraud prevention and security</li>
+                        <li>Marketing communications (with consent)</li>
+                    </ul>
+                </div>
+                
+                <span id="data-sharing" class="section-anchor"></span>
+                <div class="policy-card">
+                    <h2 class="policy-title"><i class="fas fa-share-alt"></i> Data Sharing & Disclosure</h2>
+                    <p>We may share your information with:</p>
+                    
+                    <ul class="data-list">
+                        <li><span class="data-list-title">Authorities & Customs:</span> For legal and regulatory compliance.</li>
+                        <li><span class="data-list-title">Third-Party Partners:</span> Carriers, warehouses, and payment processors.</li>
+                        <li><span class="data-list-title">Affiliates:</span> Bexocargo offices in our 10 operating countries.</li>
+                        <li><span class="data-list-title">Legal Requirements:</span> If required by law or to protect our rights.</li>
+                    </ul>
+                    
+                    <p class="mt-3">We do not sell your personal data.</p>
+                </div>
+                
+                <span id="international" class="section-anchor"></span>
+                <div class="policy-card">
+                    <h2 class="policy-title"><i class="fas fa-globe"></i> International Data Transfers</h2>
+                    <p>As we operate across Africa and France, your data may be transferred and stored in different jurisdictions. We ensure all transfers comply with applicable data protection laws, including GDPR (for EU-related data).</p>
+                </div>
+                
+                <span id="data-security" class="section-anchor"></span>
+                <div class="policy-card">
+                    <h2 class="policy-title"><i class="fas fa-shield-alt"></i> Data Security</h2>
+                    <p>We implement:</p>
+                    
+                    <div class="security-measures">
+                        <ul>
+                            <li>Encryption for sensitive data</li>
+                            <li>Secure access controls</li>
+                            <li>Regular security audits</li>
+                        </ul>
+                    </div>
+                    
+                    <p>However, no system is 100% secure—please protect your account credentials.</p>
+                </div>
+                
+                <span id="your-rights" class="section-anchor"></span>
+                <div class="policy-card">
+                    <h2 class="policy-title"><i class="fas fa-user-shield"></i> Your Rights</h2>
+                    <p>Depending on your location, you may have the right to:</p>
+                    
+                    <ul class="data-list">
+                        <li>Access, correct, or delete your data</li>
+                        <li>Restrict or object to processing</li>
+                        <li>Withdraw consent (where applicable)</li>
+                        <li>Request data portability</li>
+                    </ul>
+                    
+                    <p class="mt-3">To exercise these rights, contact: privacy@bexocargo.com</p>
+                </div>
+                
+                <span id="cookies" class="section-anchor"></span>
+                <div class="policy-card">
+                    <h2 class="policy-title"><i class="fas fa-cookie"></i> Cookies & Tracking Technologies</h2>
+                    <p>We use cookies to:</p>
+                    
+                    <ul class="data-list">
+                        <li>Enhance website functionality</li>
+                        <li>Analyze traffic patterns</li>
+                        <li>Personalize user experience</li>
+                    </ul>
+                    
+                    <p class="mt-3">You can manage cookie preferences in your browser settings.</p>
+                </div>
+                
+                <span id="children" class="section-anchor"></span>
+                <div class="policy-card">
+                    <h2 class="policy-title"><i class="fas fa-child"></i> Children's Privacy</h2>
+                    <p>Our services are not intended for minors under 18. We do not knowingly collect their data.</p>
+                </div>
+                
+                <span id="updates" class="section-anchor"></span>
+                <div class="policy-card">
+                    <h2 class="policy-title"><i class="fas fa-sync"></i> Policy Updates</h2>
+                    <p>We may update this Privacy Policy periodically. Changes will be posted on our website with a revised "Last Updated" date.</p>
+                </div>
+                
+                <span id="contact" class="section-anchor"></span>
+                <div class="contact-info">
+                    <h3>Contact Us</h3>
+                    <p>For privacy-related questions or requests, contact:</p>
+                    <p><i class="fas fa-envelope"></i> Privacy Officer: privacy@bexocargo.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Headquarters: Africa Global Logistics, 33 quai de Dion Bouton, 92800 Puteaux, France</p>
+                    <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+                    <h4 class="mt-3">Bexocargo – Trusted Logistics Across Africa.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

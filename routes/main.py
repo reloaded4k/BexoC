@@ -12,19 +12,19 @@ def index():
 
 @main_bp.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('pages/about.html')
 
 @main_bp.route('/terms')
 def terms():
-    return render_template('terms.html')
+    return render_template('pages/terms-conditions.html')
 
 @main_bp.route('/privacy')
 def privacy():
-    return render_template('privacy.html')
+    return render_template('pages/privacy-policy.html')
 
 @main_bp.route('/shipping-terms')
 def shipping_terms():
-    return render_template('shipping_terms.html')
+    return render_template('pages/shipping-terms.html')
 
 @main_bp.route('/contact', methods=['GET', 'POST'])
 def contact():
