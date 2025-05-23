@@ -161,20 +161,42 @@
     }
     </style>
     
+    <style>
+    /* Force navbar to always stay dark blue with white text */
+    .navbar {
+        background-color: #051C39 !important; /* !important to override any Bootstrap styles */
+        transition: none !important; /* Disable any transitions */
+    }
+    
+    /* Ensure navbar links always remain white and bold */
+    .navbar-dark .navbar-nav .nav-link {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-weight: bold !important;
+    }
+    
+    .navbar-dark .navbar-nav .nav-link:hover,
+    .navbar-dark .navbar-nav .nav-link:focus,
+    .navbar-dark .navbar-nav .nav-link.active {
+        color: #ffffff !important;
+    }
+    </style>
+    
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Force navbar background color to always be dark blue
+        // Additional script to ensure navbar styling remains consistent
         var navbar = document.querySelector('.navbar');
-        navbar.style.backgroundColor = '#051C39';
         
+        // Set initial styles forcefully
+        navbar.setAttribute('style', 'background-color: #051C39 !important');
+        
+        // Disable Bootstrap's scroll behavior that might change navbar appearance
         window.addEventListener('scroll', function() {
-            // Ensure navbar remains dark blue with white text on scroll
-            navbar.style.backgroundColor = '#051C39';
+            navbar.setAttribute('style', 'background-color: #051C39 !important');
             
-            // Ensure all nav links remain white
+            // Force nav links to remain white
             var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
             navLinks.forEach(function(link) {
-                link.style.color = 'rgba(255, 255, 255, 0.9)';
+                link.setAttribute('style', 'color: rgba(255, 255, 255, 0.9) !important; font-weight: bold !important;');
             });
         });
     });
