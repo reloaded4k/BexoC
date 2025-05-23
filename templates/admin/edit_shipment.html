@@ -151,19 +151,19 @@
                                     <div class="row g-3 mb-4">
                                         <div class="col-md-6">
                                             <label for="recipient_name" class="form-label">Name</label>
-                                            {{ edit_form.recipient_name(class="form-control", id="recipient_name") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.recipient_name(class="form-control", id="recipient_name") }}{% endif %}
                                         </div>
                                         <div class="col-md-6">
                                             <label for="recipient_email" class="form-label">Email</label>
-                                            {{ edit_form.recipient_email(class="form-control", id="recipient_email") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.recipient_email(class="form-control", id="recipient_email") }}{% endif %}
                                         </div>
                                         <div class="col-md-6">
                                             <label for="recipient_contact" class="form-label">Contact</label>
-                                            {{ edit_form.recipient_contact(class="form-control", id="recipient_contact") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.recipient_contact(class="form-control", id="recipient_contact") }}{% endif %}
                                         </div>
                                         <div class="col-md-6">
                                             <label for="recipient_address" class="form-label">Address</label>
-                                            {{ edit_form.recipient_address(class="form-control", id="recipient_address", rows="3") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.recipient_address(class="form-control", id="recipient_address", rows="3") }}{% endif %}
                                         </div>
                                     </div>
                                     
@@ -172,19 +172,19 @@
                                     <div class="row g-3 mb-4">
                                         <div class="col-md-6">
                                             <label for="cargo_name" class="form-label">Name</label>
-                                            {{ edit_form.cargo_name(class="form-control", id="cargo_name") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.cargo_name(class="form-control", id="cargo_name") }}{% endif %}
                                         </div>
                                         <div class="col-md-6">
                                             <label for="cargo_description" class="form-label">Description</label>
-                                            {{ edit_form.cargo_description(class="form-control", id="cargo_description", rows="3") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.cargo_description(class="form-control", id="cargo_description", rows="3") }}{% endif %}
                                         </div>
                                         <div class="col-md-3">
                                             <label for="cargo_length" class="form-label">Length (cm)</label>
-                                            {{ edit_form.cargo_length(class="form-control", id="cargo_length") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.cargo_length(class="form-control", id="cargo_length") }}{% endif %}
                                         </div>
                                         <div class="col-md-3">
                                             <label for="cargo_width" class="form-label">Width (cm)</label>
-                                            {{ edit_form.cargo_width(class="form-control", id="cargo_width") if edit_form }}
+                                            {% if edit_form %}{{ edit_form.cargo_width(class="form-control", id="cargo_width") }}{% endif %}
                                         </div>
                                         <div class="col-md-3">
                                             <label for="cargo_height" class="form-label">Height (cm)</label>
