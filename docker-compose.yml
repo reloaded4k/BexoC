@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    restart: always
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - ./static:/app/static
+      - ./templates:/app/templates
+    networks:
+      - bexocargo-network
+
+  db:
+    image: postgres:12
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-bexocargo}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-secure_password}
+      - POSTGRES_DB=${POSTGRES_DB:-bexocargo_db}
+    networks:
+      - bexocargo-network
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./static:/usr/share/nginx/html/static
+    depends_on:
+      - web
+    networks:
+      - bexocargo-network
+
+networks:
+  bexocargo-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
