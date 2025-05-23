@@ -93,18 +93,24 @@ def view_shipment(tracking_number):
     # Get shipment by tracking number
     shipment = Shipment.query.filter_by(tracking_number=tracking_number).first_or_404()
     
-    # Create forms
+    # Create tracking update form
     update_form = TrackingUpdateForm()
-    edit_form = EditShipmentForm(obj=shipment)
     
-    if update_form.validate_on_submit():
+    # Process tracking update form submission
+    if request.method == 'POST' and update_form.validate_on_submit():
         # Add tracking update
         shipment.add_tracking_update(update_form.status.data, update_form.notes.data)
+        
+        # Save changes
+        db.session.commit()
         
         flash('Tracking update added successfully', 'success')
         return redirect(url_for('admin.view_shipment', tracking_number=tracking_number))
     
-    return render_template('admin/edit_shipment.html', 
+    # Create edit form but don't process it here
+    edit_form = EditShipmentForm(obj=shipment)
+    
+    return render_template('admin/view_shipment.html', 
                           shipment=shipment, 
                           update_form=update_form,
                           edit_form=edit_form)
@@ -115,13 +121,13 @@ def edit_shipment(tracking_number):
     # Get shipment by tracking number
     shipment = Shipment.query.filter_by(tracking_number=tracking_number).first_or_404()
     
-    # Create forms - both edit form and update form are needed
-    form = EditShipmentForm(obj=shipment)
-    update_form = TrackingUpdateForm()
+    # Create edit form
+    edit_form = EditShipmentForm(obj=shipment)
     
-    if form.validate_on_submit():
+    # Process edit form submission
+    if request.method == 'POST' and edit_form.validate_on_submit():
         # Update shipment data
-        form.populate_obj(shipment)
+        edit_form.populate_obj(shipment)
         
         # Save changes
         db.session.commit()
@@ -131,8 +137,7 @@ def edit_shipment(tracking_number):
     
     return render_template('admin/edit_shipment.html', 
                           shipment=shipment, 
-                          edit_form=form,
-                          update_form=update_form)
+                          edit_form=edit_form)
 
 @admin_bp.route('/shipment/<tracking_number>/delete', methods=['POST'])
 @login_required
