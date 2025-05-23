@@ -1,123 +1,529 @@
 {% extends 'layout.html' %}
 
-{% block title %}Contact Us - Bexo Cargo{% endblock %}
+{% block title %}Get in Touch - Bexo Cargo{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-header {
+        background-color: #051C39;
+        color: white;
+        padding: 6rem 0 3rem;
+        position: relative;
+        margin-bottom: 3rem;
+    }
+    
+    .contact-header h1 {
+        font-weight: 700;
+        font-size: 3rem;
+        position: relative;
+    }
+    
+    .contact-header h1:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+        width: 80px;
+        height: 4px;
+        background-color: #FF6600;
+    }
+    
+    .contact-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+        height: 100%;
+        transition: transform 0.3s ease;
+        border-top: 4px solid #051C39;
+    }
+    
+    .contact-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .contact-card .card-body {
+        padding: 2rem;
+    }
+    
+    .contact-card .card-title {
+        color: #051C39;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+    
+    .contact-card .card-icon {
+        font-size: 2.5rem;
+        color: #FF6600;
+        margin-bottom: 1.5rem;
+    }
+    
+    .regional-offices {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .regional-title {
+        color: #051C39;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .regional-title:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 50px;
+        height: 3px;
+        background-color: #FF6600;
+    }
+    
+    .office-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .office-item {
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    
+    .office-country {
+        font-weight: 600;
+        color: #051C39;
+        margin-bottom: 0.5rem;
+    }
+    
+    .office-email {
+        font-size: 0.9rem;
+        color: #495057;
+        word-break: break-all;
+    }
+    
+    .headquarters {
+        background-color: #051C39;
+        color: white;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .headquarters h3 {
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .headquarters h3:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 50px;
+        height: 3px;
+        background-color: #FF6600;
+    }
+    
+    .business-hours {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .business-hours h3 {
+        color: #051C39;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .business-hours h3:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 50px;
+        height: 3px;
+        background-color: #FF6600;
+    }
+    
+    .hours-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    
+    .hours-list li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px dashed #dee2e6;
+    }
+    
+    .hours-list li:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .message-form {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .message-form h3 {
+        color: #051C39;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .message-form h3:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 50px;
+        height: 3px;
+        background-color: #FF6600;
+    }
+    
+    .form-control {
+        border-radius: 8px;
+        padding: 0.8rem 1rem;
+        border: 1px solid #ced4da;
+    }
+    
+    .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 102, 0, 0.25);
+        border-color: #FF6600;
+    }
+    
+    .btn-send {
+        background-color: #FF6600;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-send:hover {
+        background-color: #e65c00;
+        transform: translateY(-2px);
+    }
+    
+    .faqs {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .faqs h3 {
+        color: #051C39;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .faqs h3:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 50px;
+        height: 3px;
+        background-color: #FF6600;
+    }
+    
+    .accordion-item {
+        border: none;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .accordion-button {
+        background-color: #fff;
+        color: #051C39;
+        font-weight: 600;
+        box-shadow: none;
+        padding: 1.2rem;
+    }
+    
+    .accordion-button:not(.collapsed) {
+        background-color: #051C39;
+        color: white;
+    }
+    
+    .accordion-button:focus {
+        box-shadow: none;
+        border-color: transparent;
+    }
+    
+    .accordion-body {
+        background-color: #fff;
+        padding: 1.2rem;
+    }
+    
+    @media (max-width: 767.98px) {
+        .office-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container py-5 mt-5">
-    <div class="row mb-5">
-        <div class="col-lg-8 mx-auto text-center">
-            <h1 class="display-4 mb-4">Contact Us</h1>
-            <p class="lead">Have questions or need assistance? We're here to help!</p>
+<div class="contact-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1>Get in Touch</h1>
+                <p class="lead mt-4">Have questions about our services? Need help with a shipment? Our team is here to assist you across our 10 African countries.</p>
+            </div>
         </div>
     </div>
-    
+</div>
+
+<div class="container py-5">
     <div class="row">
-        <div class="col-lg-5 mb-5 mb-lg-0">
-            <div class="card border-0 shadow h-100">
-                <div class="card-body">
-                    <h3 class="mb-4">Get In Touch</h3>
-                    
-                    <div class="d-flex mb-4">
-                        <div class="flex-shrink-0 me-3">
-                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
-                        </div>
-                        <div>
-                            <h5>Head Office</h5>
-                            <p class="mb-0">123 Shipping Lane,<br>Cargo City, 10001<br>United States</p>
-                        </div>
+        <div class="col-md-4 mb-4">
+            <div class="contact-card">
+                <div class="card-body text-center">
+                    <div class="card-icon">
+                        <i class="fas fa-envelope"></i>
                     </div>
-                    
-                    <div class="d-flex mb-4">
-                        <div class="flex-shrink-0 me-3">
-                            <i class="fas fa-phone fa-2x text-primary"></i>
-                        </div>
-                        <div>
-                            <h5>Phone</h5>
-                            <p class="mb-0">+1 (800) SHIP-BEXO</p>
-                            <p class="mb-0">+1 (555) 123-4567</p>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex mb-4">
-                        <div class="flex-shrink-0 me-3">
-                            <i class="fas fa-envelope fa-2x text-primary"></i>
-                        </div>
-                        <div>
-                            <h5>Email</h5>
-                            <p class="mb-0">info@bexocargo.com</p>
-                            <p class="mb-0">support@bexocargo.com</p>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-3">
-                            <i class="fas fa-clock fa-2x text-primary"></i>
-                        </div>
-                        <div>
-                            <h5>Business Hours</h5>
-                            <p class="mb-0">Monday - Friday: 8:00 AM - 6:00 PM</p>
-                            <p class="mb-0">Saturday: 9:00 AM - 1:00 PM</p>
-                            <p class="mb-0">Sunday: Closed</p>
-                        </div>
-                    </div>
+                    <h4 class="card-title">Global Email</h4>
+                    <p>support@bexocargo.com</p>
                 </div>
             </div>
         </div>
+        <div class="col-md-4 mb-4">
+            <div class="contact-card">
+                <div class="card-body text-center">
+                    <div class="card-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h4 class="card-title">Customer Service</h4>
+                    <p>Contact your local office for phone support</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="contact-card">
+                <div class="card-body text-center">
+                    <div class="card-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h4 class="card-title">Regional Support</h4>
+                    <p>10 offices across Africa to serve you</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-lg-6">
+            <div class="regional-offices">
+                <h3 class="regional-title">Regional Offices</h3>
+                <div class="office-grid">
+                    <div class="office-item">
+                        <div class="office-country">Cameroon</div>
+                        <div class="office-email">cameroon@bexocargo.com</div>
+                    </div>
+                    <div class="office-item">
+                        <div class="office-country">Nigeria</div>
+                        <div class="office-email">nigeria@bexocargo.com</div>
+                    </div>
+                    <div class="office-item">
+                        <div class="office-country">Ghana</div>
+                        <div class="office-email">ghana@bexocargo.com</div>
+                    </div>
+                    <div class="office-item">
+                        <div class="office-country">Senegal</div>
+                        <div class="office-email">senegal@bexocargo.com</div>
+                    </div>
+                    <div class="office-item">
+                        <div class="office-country">South Africa</div>
+                        <div class="office-email">southafrica@bexocargo.com</div>
+                    </div>
+                    <div class="office-item">
+                        <div class="office-country">Ivory Coast</div>
+                        <div class="office-email">ivorycoast@bexocargo.com</div>
+                    </div>
+                    <div class="office-item">
+                        <div class="office-country">Mali</div>
+                        <div class="office-email">mali@bexocargo.com</div>
+                    </div>
+                    <div class="office-item">
+                        <div class="office-country">Kenya</div>
+                        <div class="office-email">kenya@bexocargo.com</div>
+                    </div>
+                    <div class="office-item">
+                        <div class="office-country">Gabon</div>
+                        <div class="office-email">gabon@bexocargo.com</div>
+                    </div>
+                    <div class="office-item">
+                        <div class="office-country">Equatorial Guinea</div>
+                        <div class="office-email">equatorialguinea@bexocargo.com</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="headquarters">
+                <h3>Headquarters</h3>
+                <address class="mb-0">
+                    Africa Global Logistics<br>
+                    33 quai de Dion Bouton<br>
+                    92800 Puteaux, France
+                </address>
+            </div>
+            
+            <div class="business-hours">
+                <h3>Business Hours</h3>
+                <ul class="hours-list">
+                    <li>
+                        <span>Monday - Friday</span>
+                        <span>8:00 AM - 6:00 PM</span>
+                    </li>
+                    <li>
+                        <span>Saturday</span>
+                        <span>9:00 AM - 2:00 PM</span>
+                    </li>
+                    <li>
+                        <span>Sunday</span>
+                        <span>Closed</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
         
-        <div class="col-lg-7">
-            <div class="card border-0 shadow">
-                <div class="card-body">
-                    <h3 class="mb-4">Send a Message</h3>
+        <div class="col-lg-6">
+            <div class="message-form">
+                <h3>Send Us a Message</h3>
+                <form method="POST" action="{{ url_for('main.contact') }}" class="mt-4">
+                    {{ form.csrf_token }}
                     
-                    <form class="needs-validation" method="POST" action="{{ url_for('main.contact') }}" novalidate>
-                        {{ form.csrf_token }}
-                        
-                        <div class="row g-3">
-                            <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-                                {{ form.name(class="form-control", id="name", placeholder="Your name") }}
-                                <div class="invalid-feedback">
-                                    Please enter your name.
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                {{ form.email(class="form-control", id="email", placeholder="Your email") }}
-                                <div class="invalid-feedback">
-                                    Please enter a valid email address.
-                                </div>
-                            </div>
-                            
-                            <div class="col-12 mb-3">
-                                <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
-                                {{ form.address(class="form-control", id="address", rows="3", placeholder="Your address") }}
-                                <div class="invalid-feedback">
-                                    Please enter your address.
-                                </div>
-                            </div>
-                            
-                            <div class="col-12 mb-3">
-                                <label for="contact_number" class="form-label">Contact Number <span class="text-danger">*</span></label>
-                                {{ form.contact_number(class="form-control", id="contact_number", placeholder="Your contact number") }}
-                                <div class="invalid-feedback">
-                                    Please enter your contact number.
-                                </div>
-                            </div>
-                            
-                            <div class="col-12 mb-3">
-                                <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
-                                {{ form.message(class="form-control", id="message", rows="5", placeholder="Your message") }}
-                                <div class="invalid-feedback">
-                                    Please enter your message.
-                                </div>
-                            </div>
-                            
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Your Name</label>
+                        {{ form.name(class="form-control", id="name", placeholder="Your name") }}
+                        {% if form.name.errors %}
+                        <div class="text-danger mt-1">
+                            {% for error in form.name.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Your Email</label>
+                        {{ form.email(class="form-control", id="email", placeholder="your.email@example.com") }}
+                        {% if form.email.errors %}
+                        <div class="text-danger mt-1">
+                            {% for error in form.email.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        {{ form.address(class="form-control", id="address", rows="2", placeholder="Your address") }}
+                        {% if form.address.errors %}
+                        <div class="text-danger mt-1">
+                            {% for error in form.address.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="contact_number" class="form-label">Contact Number</label>
+                        {{ form.contact_number(class="form-control", id="contact_number", placeholder="Your contact number") }}
+                        {% if form.contact_number.errors %}
+                        <div class="text-danger mt-1">
+                            {% for error in form.contact_number.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="message" class="form-label">Message</label>
+                        {{ form.message(class="form-control", id="message", rows="5", placeholder="Your message...") }}
+                        {% if form.message.errors %}
+                        <div class="text-danger mt-1">
+                            {% for error in form.message.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-send">Send Message</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="faqs">
+                <h3>Frequently Asked Questions</h3>
+                <div class="accordion mt-4" id="contactFAQ">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                How can I track my shipment?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                You can track your shipment by visiting our tracking page and entering your tracking number. The system will provide real-time updates on your shipment's location and status.
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                How long does shipping take across African countries?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Shipping times vary depending on the origin and destination countries. Typically, shipments between neighboring African countries take 3-5 business days, while shipments across regions may take 7-10 business days. For expedited shipping options, please contact our customer service.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                How do I file a claim for a lost or damaged shipment?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                To file a claim, contact your regional office or email support@bexocargo.com within 7 days of the scheduled delivery date. Include your tracking number, photos of damaged items (if applicable), and a description of the issue. Our claims department will review your case and respond within 48 hours.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
