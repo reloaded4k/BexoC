@@ -16,7 +16,13 @@ This guide will help you deploy the Laravel version of Bexo Cargo to SiteGround 
 3. Create a new MySQL database:
    - Name: bexocargo_db (or your preferred name)
    - User: Create a new user with a strong password
-4. Note down the database credentials
+4. Note down the database credentials:
+   - Database name
+   - Database username
+   - Database password
+   - Database host (usually localhost)
+
+These credentials will be used in your .env file configuration.
 
 ## Step 2: Upload Application Files
 
@@ -63,9 +69,13 @@ chmod -R 755 storage bootstrap/cache
 
 ## Step 5: Run Migrations
 
+Once you've properly configured your MySQL database connection in the .env file, run:
+
 ```bash
 php artisan migrate
 ```
+
+This will create all the necessary database tables in your MySQL database. If you encounter any issues with the migration, make sure your MySQL user has sufficient privileges to create tables and indexes.
 
 ## Step 6: Create Admin User
 
