@@ -1,11 +1,14 @@
+# Required Python Packages for Bexo Cargo
+# Install these via SiteGround's Python virtual environment
+
 email-validator==2.0.0
 Flask==2.3.3
 Flask-Login==0.6.2
 Flask-Mail==0.9.1
 Flask-SQLAlchemy==3.1.1
-Flask-WTF==1.1.1
-gunicorn==21.2.0
-psycopg2-binary==2.9.9
-SQLAlchemy==2.0.22
+Flask-WTF==1.2.1
+gunicorn==23.0.0
+psycopg2-binary==2.9.6
+SQLAlchemy==2.0.19
 Werkzeug==2.3.7
 WTForms==3.0.1

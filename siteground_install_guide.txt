@@ -16,63 +16,77 @@ STEP 2: UPLOAD APPLICATION FILES
 -------------------------------
 1. Extract the ZIP file you downloaded
 2. Using Site Tools > File Manager or FTP:
-   - Create a directory for the application (e.g., "bexocargo" in your public_html folder)
+   - Create a directory for the application (e.g., "bexocargo")
    - Upload all files to this directory
 
-STEP 3: CONFIGURE THE APPLICATION
--------------------------------
-1. Edit the .htaccess file:
-   - Replace "USERNAME" with your actual SiteGround username
+STEP 3: EDIT CONFIGURATION
+-------------------------
+1. Create a .env file in your application directory with the following content:
+   ```
+   DATABASE_URL=postgresql://username:password@localhost/bexocargo_db
+   SESSION_SECRET=your_secure_secret_key
+   FLASK_ENV=production
+   MAIL_SERVER=smtp.gmail.com
+   MAIL_PORT=587
+   MAIL_USE_TLS=True
+   MAIL_USERNAME=your_email@gmail.com
+   MAIL_PASSWORD=your_app_password
+   MAIL_DEFAULT_SENDER=noreply@bexocargo.com
+   ```
 
-2. Edit the passenger_wsgi.py file:
-   - Replace "USERNAME" with your actual SiteGround username
-   - Adjust the Python path if necessary
+2. Edit the .htaccess file:
+   - Replace USERNAME with your SiteGround username
 
-3. Create a .env file with your environment variables:
-   - DATABASE_URL=postgresql://username:password@localhost:5432/database_name
-   - SESSION_SECRET=your_secret_key
-   - ADMIN_USERNAME=your_admin_username
-   - ADMIN_PASSWORD=your_admin_password
-   - MAIL_SERVER=your_mail_server
-   - MAIL_PORT=587
-   - MAIL_USERNAME=your_email
-   - MAIL_PASSWORD=your_email_password
-   - MAIL_DEFAULT_SENDER=noreply@yourdomain.com
+STEP 4: SET UP PYTHON APPLICATION
+--------------------------------
+1. In Site Tools, go to DevOps > Python
+2. Create a new Python application:
+   - Python Version: 3.8+ 
+   - Application Root: Your application directory
+   - Application URL: Your domain or subdomain
+   - Application Startup File: passenger_wsgi.py
+   - Application Entry Point: application
+3. Add all environment variables from your .env file
 
-STEP 4: SET UP PYTHON ENVIRONMENT
--------------------------------
-1. Access your SiteGround SSH Terminal:
-   - Go to Site > SSH Access > Terminal
-   
-2. Navigate to your application directory:
-   - cd public_html/bexocargo (or your chosen directory)
-   
-3. Create a virtual environment:
-   - python3 -m venv venv
-   
-4. Install dependencies:
-   - source venv/bin/activate
-   - pip install -r requirements_list.txt
+STEP 5: INSTALL DEPENDENCIES
+--------------------------
+1. Connect to your server via SSH
+   - Set up SSH key in Site Tools > DevOps > SSH Keys Manager first
+2. Run the following commands:
+   ```
+   cd ~/public_html/your-app-directory
+   source python_app_venv/bin/activate
+   pip install email-validator Flask Flask-Login Flask-Mail Flask-SQLAlchemy Flask-WTF gunicorn psycopg2-binary SQLAlchemy Werkzeug WTForms
+   ```
 
-STEP 5: INITIALIZE THE DATABASE
+STEP 6: INITIALIZE THE DATABASE
 -----------------------------
-1. Still in the SSH Terminal, with your virtual environment activated:
-   - python
-   - from app import app, db
-   - with app.app_context():
-   -     db.create_all()
-   - exit()
+1. While still connected via SSH and in the virtual environment:
+   ```
+   python siteground_setup.py
+   ```
+2. This will create database tables and set up a default admin user
 
-STEP 6: TEST YOUR APPLICATION
----------------------------
-1. Visit your website (https://yourdomain.com)
-2. Make sure everything works correctly
-3. Test the admin interface (https://yourdomain.com/admin)
-   - Default login: admin / admin123 (unless you changed it in the .env file)
+STEP 7: SSL SETUP
+---------------
+1. In Site Tools > Security > SSL Manager
+2. Enable Let's Encrypt SSL for your domain
+3. Enable HTTPS Enforce
+
+STEP 8: FINAL STEPS
+-----------------
+1. Restart your Python application in Site Tools > DevOps > Python
+2. Visit your website to verify it's working
+3. Login to the admin panel at /admin/login with:
+   - Username: admin
+   - Password: admin123
+4. IMMEDIATELY change the admin password
 
 TROUBLESHOOTING
 --------------
-1. Check your SiteGround error logs if anything goes wrong
-2. Make sure you've edited the correct paths in passenger_wsgi.py and .htaccess
-3. Ensure your virtual environment is properly set up
-4. Verify database credentials in your .env file
+- If you see errors, check Site Tools > Logs > Error Logs
+- Verify database connection details are correct
+- Make sure all environment variables are set
+- Check file permissions (755 for directories, 644 for files)
+
+For more assistance, contact support@bexocargo.com
