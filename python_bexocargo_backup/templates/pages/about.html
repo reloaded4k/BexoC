@@ -1,0 +1,269 @@
+{% extends 'layout.html' %}
+
+{% block title %}About Bexo Cargo{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-section {
+        padding: 6rem 0;
+        background-color: #fff;
+    }
+    
+    .about-header {
+        background-color: #051C39;
+        color: white;
+        padding: 6rem 0 3rem;
+        position: relative;
+        margin-bottom: 3rem;
+    }
+    
+    .about-header h1 {
+        font-weight: 700;
+        font-size: 3rem;
+        position: relative;
+    }
+    
+    .about-header h1:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+        width: 80px;
+        height: 4px;
+        background-color: #FF6600;
+    }
+    
+    .mission-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-top: 4px solid #FF6600;
+    }
+    
+    .vision-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-top: 4px solid #051C39;
+    }
+    
+    .section-title {
+        font-weight: 700;
+        color: #051C39;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .section-title:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 50px;
+        height: 3px;
+        background-color: #FF6600;
+    }
+    
+    .value-box {
+        padding: 1.5rem;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+        border-left: 4px solid #FF6600;
+    }
+    
+    .value-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .value-box h4 {
+        color: #051C39;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .country-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .country-badge {
+        background-color: #f0f0f0;
+        color: #333;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+    
+    .contact-card {
+        background-color: #051C39;
+        color: white;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-top: 3rem;
+        text-align: center;
+    }
+    
+    .contact-card .btn-orange {
+        background-color: #FF6600;
+        border: none;
+        color: white;
+        padding: 0.6rem 2rem;
+        font-weight: 600;
+        margin-top: 1rem;
+    }
+    
+    .timeline {
+        position: relative;
+        padding-left: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .timeline:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background-color: #e9ecef;
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-bottom: 2rem;
+    }
+    
+    .timeline-item:last-child {
+        padding-bottom: 0;
+    }
+    
+    .timeline-item:before {
+        content: '';
+        position: absolute;
+        left: -2rem;
+        top: 0.5rem;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: #FF6600;
+        border: 3px solid #fff;
+    }
+    
+    .approach-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        margin-top: 2rem;
+        border-left: 4px solid #051C39;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1>About Bexocargo</h1>
+                <p class="lead mt-4">Your trusted partner for global logistics solutions</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="about-section">
+    <div class="container">
+        <div class="row gx-5">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="mission-card">
+                    <h3 class="section-title">Our Mission</h3>
+                    <p>At Bexocargo, our mission is to provide reliable, transparent, and efficient logistics and cargo services across Africa. We are committed to simplifying shipping, making it affordable and accessible for individuals and businesses in the 10 African countries we have a presence in: Cameroon, Nigeria, Ghana, Senegal, South Africa, Ivory Coast, Mali, Kenya, Gabon, and Equatorial Guinea. And we deliver worldwide! US, North & South America, Europe, Middle East, South East Asia, Australia & New Zealand</p>
+                    
+                    <div class="country-list">
+                        <span class="country-badge">Cameroon</span>
+                        <span class="country-badge">Nigeria</span>
+                        <span class="country-badge">Ghana</span>
+                        <span class="country-badge">Senegal</span>
+                        <span class="country-badge">South Africa</span>
+                        <span class="country-badge">Ivory Coast</span>
+                        <span class="country-badge">Mali</span>
+                        <span class="country-badge">Kenya</span>
+                        <span class="country-badge">Gabon</span>
+                        <span class="country-badge">Equatorial Guinea</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="vision-card">
+                    <h3 class="section-title">Our Vision</h3>
+                    <p>We envision a connected Africa where trade and logistics flow seamlessly across borders. Through innovative technology and dedicated service, we are shaping the future of cargo and freight solutions on the continent.</p>
+                    
+                    <div class="mt-4">
+                        <h5 class="text-primary">Trusted Across Africa</h5>
+                        <p>Delivering reliability since our founding</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h3 class="section-title">Our Story</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <p>Bexocargo was established with a vision to bridge logistics gaps in Africa. Starting as a regional freight service, we have grown into a trusted logistics partner with a strong presence in 10 African nations.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p>Our growth has been fueled by a commitment to innovation, efficiency, and customer satisfaction. We continuously invest in technology and infrastructure to enhance our services, ensuring smooth cargo movement across borders.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <h3 class="section-title">Our Values</h3>
+                <div class="value-box">
+                    <h4><i class="fas fa-check-circle text-success me-2"></i> Reliability</h4>
+                    <p class="mb-0">We deliver on our promises, ensuring your shipments arrive safely and on time.</p>
+                </div>
+                
+                <div class="value-box">
+                    <h4><i class="fas fa-check-circle text-success me-2"></i> Innovation</h4>
+                    <p class="mb-0">We leverage cutting-edge solutions to improve logistics operations.</p>
+                </div>
+                
+                <div class="value-box">
+                    <h4><i class="fas fa-check-circle text-success me-2"></i> Customer Focus</h4>
+                    <p class="mb-0">Our clients are at the heart of everything we do.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="approach-card">
+                    <h3 class="section-title">Our Approach</h3>
+                    <p>We combine advanced tracking technology with personalized service to create a seamless logistics experience. Our real-time tracking system keeps you informed at every stage, while our expert team ensures smooth customs clearance and timely deliveries.</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Ready to experience the Bexocargo advantage?</h3>
+                    <p>Contact us today for dependable cargo solutions across Africa!</p>
+                    <a href="{{ url_for('main.contact') }}" class="btn btn-orange">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,227 @@
+{% extends 'layout.html' %}
+
+{% block title %}Manage Shipments - Bexo Cargo Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5 mt-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2">
+            <div class="card mb-4 border-0 shadow">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <div class="mb-3">
+                            <i class="fas fa-user-circle fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="mb-1">Admin</h5>
+                        <p class="text-muted mb-0">{{ current_user.username }}</p>
+                    </div>
+                    
+                    <nav class="nav flex-column">
+                        <a class="nav-link text-dark mb-2" href="{{ url_for('admin.dashboard') }}">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </a>
+                        <a class="nav-link active bg-primary text-white rounded mb-2" href="{{ url_for('admin.bookings') }}">
+                            <i class="fas fa-shipping-fast me-2"></i> Shipments
+                        </a>
+                        <a class="nav-link text-dark mb-2" href="{{ url_for('admin.logout') }}">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-lg-9 col-xl-10">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="mb-0">Manage Shipments</h1>
+                <a href="{{ url_for('shipment.book') }}" class="btn btn-primary" target="_blank">
+                    <i class="fas fa-plus me-2"></i>New Shipment
+                </a>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="card border-0 shadow mb-4">
+                <div class="card-body">
+                    <form action="{{ url_for('admin.bookings') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search by tracking number, sender, recipient, or status" value="{{ search }}">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search me-2"></i>Search
+                            </button>
+                            {% if search %}
+                                <a href="{{ url_for('admin.bookings') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times me-2"></i>Clear
+                                </a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Shipments Table -->
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Tracking #</th>
+                                    <th>Sender</th>
+                                    <th>Recipient</th>
+                                    <th>Cargo</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if shipments.items %}
+                                    {% for shipment in shipments.items %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ url_for('admin.view_shipment', tracking_number=shipment.tracking_number) }}" class="text-decoration-none fw-semibold">
+                                                {{ shipment.tracking_number }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div>{{ shipment.sender_name }}</div>
+                                            <small class="text-muted">{{ shipment.sender_email }}</small>
+                                        </td>
+                                        <td>
+                                            <div>{{ shipment.recipient_name }}</div>
+                                            <small class="text-muted">{{ shipment.recipient_email }}</small>
+                                        </td>
+                                        <td>{{ shipment.cargo_name }}</td>
+                                        <td>
+                                            <span class="badge 
+                                            {% if 'Delivered' in shipment.current_status %}
+                                                bg-success
+                                            {% elif 'Transit' in shipment.current_status or 'Dispatched' in shipment.current_status %}
+                                                bg-info
+                                            {% elif 'Processing' in shipment.current_status %}
+                                                bg-warning
+                                            {% elif 'Hold' in shipment.current_status %}
+                                                bg-danger
+                                            {% else %}
+                                                bg-secondary
+                                            {% endif %}">
+                                                {{ shipment.current_status }}
+                                            </span>
+                                        </td>
+                                        <td>{{ shipment.created_at.strftime('%b %d, %Y') }}</td>
+                                        <td>
+                                            <div class="d-flex gap-1">
+                                                <a href="{{ url_for('admin.view_shipment', tracking_number=shipment.tracking_number) }}" class="btn btn-sm btn-outline-primary" title="Edit Shipment">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="{{ url_for('main.track', tracking_number=shipment.tracking_number) }}" class="btn btn-sm btn-outline-info" title="Track Shipment" target="_blank">
+                                                    <i class="fas fa-search"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" title="Delete Shipment" data-bs-toggle="modal" data-bs-target="#deleteModal{{ shipment.id }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                            
+                                            <!-- Delete Modal -->
+                                            <div class="modal fade" id="deleteModal{{ shipment.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ shipment.id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel{{ shipment.id }}">Confirm Deletion</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Are you sure you want to delete shipment <strong>{{ shipment.tracking_number }}</strong>?</p>
+                                                            <p class="text-danger">This action cannot be undone.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                            <form action="{{ url_for('admin.delete_shipment', tracking_number=shipment.tracking_number) }}" method="POST">
+                                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4">
+                                            {% if search %}
+                                                <p class="mb-1"><i class="fas fa-search fa-2x mb-3 text-muted"></i></p>
+                                                <h5>No shipments found matching "{{ search }}"</h5>
+                                                <p class="text-muted">Try using different keywords or <a href="{{ url_for('admin.bookings') }}">clear the search</a>.</p>
+                                            {% else %}
+                                                <p class="mb-1"><i class="fas fa-box-open fa-2x mb-3 text-muted"></i></p>
+                                                <h5>No shipments found</h5>
+                                                <p class="text-muted">No shipments have been created yet.</p>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    {% if shipments.pages > 1 %}
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <!-- Previous page -->
+                            {% if shipments.has_prev %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ url_for('admin.bookings', page=shipments.prev_num, search=search) }}">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link"><i class="fas fa-chevron-left"></i></span>
+                                </li>
+                            {% endif %}
+                            
+                            <!-- Page numbers -->
+                            {% for page_num in shipments.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                                {% if page_num %}
+                                    {% if shipments.page == page_num %}
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ page_num }}</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ url_for('admin.bookings', page=page_num, search=search) }}">{{ page_num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            <!-- Next page -->
+                            {% if shipments.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ url_for('admin.bookings', page=shipments.next_num, search=search) }}">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link"><i class="fas fa-chevron-right"></i></span>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

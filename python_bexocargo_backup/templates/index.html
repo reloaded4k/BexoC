@@ -1,0 +1,467 @@
+{% extends 'layout.html' %}
+
+{% block title %}Bexo Cargo - Reliable Shipping & Logistics Solutions{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background-color: #051C39;
+        color: white;
+        padding: 3rem 0;
+    }
+    
+    .booking-form {
+        background-color: white;
+        border-radius: 10px;
+        padding: 2rem;
+        color: #333;
+    }
+    
+    .booking-form-title {
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+    
+    .feature-badge {
+        background-color: rgba(255, 102, 0, 0.1);
+        color: #FF6600;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-badge i {
+        margin-right: 0.5rem;
+    }
+    
+    .hero-image {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        background-color: #FF6600;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin: 0 auto 1rem;
+    }
+    
+    .step-icon {
+        font-size: 2.5rem;
+        color: #FF6600;
+        margin-bottom: 1rem;
+    }
+    
+    .service-card {
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 1.5rem;
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .service-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .service-icon {
+        color: #FF6600;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .testimonial-card {
+        padding: 1.5rem;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .testimonial-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+    }
+    
+    .rating {
+        color: #FFC107;
+        margin: 0.5rem 0;
+    }
+    
+    .tracking-section {
+        background-color: #051C39;
+        color: white;
+        padding: 3rem 0;
+    }
+    
+    .btn-orange {
+        background-color: #FF6600;
+        border-color: #FF6600;
+        color: white;
+    }
+    
+    .btn-orange:hover {
+        background-color: #e55c00;
+        border-color: #e55c00;
+        color: white;
+    }
+    
+    .section-dots {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+    
+    .dot {
+        width: 8px;
+        height: 8px;
+        background-color: #ddd;
+        border-radius: 50%;
+        margin: 0 3px;
+    }
+    
+    .dot.active {
+        background-color: #FF6600;
+    }
+    
+    .tracking-feature {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem 0;
+    }
+    
+    .tracking-feature i {
+        margin-right: 0.5rem;
+        color: #FF6600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-0" style="background-color: #051C39; padding-top: 70px;">
+    <div class="container">
+        <div class="row align-items-center py-5">
+            <!-- Booking Form -->
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="bg-white rounded-4 p-4 shadow-lg" style="border-radius: 20px;">
+                    <h2 class="fw-bold mb-4 fs-4">Book Your Cargo in Minutes</h2>
+                    <form action="{{ url_for('shipment.book') }}" method="GET">
+                        <div class="mb-3">
+                            <label for="origin" class="form-label fw-medium">Origin Country</label>
+                            <select class="form-select form-select-lg border-0 rounded-3" id="origin" required style="background-color: #f8f9fa; padding: 12px 15px;">
+                                <option value="" selected disabled>Select country</option>
+                                <option value="cm">Cameroon</option>
+                                <option value="ng">Nigeria</option>
+                                <option value="gh">Ghana</option>
+                                <option value="sn">Senegal</option>
+                                <option value="za">South Africa</option>
+                                <option value="ci">Ivory Coast</option>
+                                <option value="ml">Mali</option>
+                                <option value="ke">Kenya</option>
+                                <option value="ga">Gabon</option>
+                                <option value="gq">Equatorial Guinea</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="destination" class="form-label fw-medium">Destination Country</label>
+                            <input type="text" class="form-control form-control-lg border-0 rounded-3" id="destination" placeholder="Enter destination country" style="background-color: #f8f9fa; padding: 12px 15px;">
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="weight" class="form-label fw-medium">Weight (kg)</label>
+                                <input type="number" class="form-control form-control-lg border-0 rounded-3" id="weight" placeholder="Enter weight" style="background-color: #f8f9fa; padding: 12px 15px;">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="cargo-type" class="form-label fw-medium">Cargo Type</label>
+                                <select class="form-select form-select-lg border-0 rounded-3" id="cargo-type" style="background-color: #f8f9fa; padding: 12px 15px;">
+                                    <option value="" selected disabled>Select type</option>
+                                    <option value="documents">Documents</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="agricultural">Agricultural Products</option>
+                                    <option value="minerals">Minerals & Raw Materials</option>
+                                    <option value="textiles">Textiles & Apparel</option>
+                                    <option value="seafood">Seafood & Livestock</option>
+                                    <option value="manufactured">Manufactured Goods</option>
+                                    <option value="relics">Relics and Valuable Artifacts</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-orange w-100 py-3 fw-bold rounded-3" style="border-radius: 10px; font-size: 18px;">Book Now</button>
+                    </form>
+                    <div class="text-center mt-2">
+                        <small class="text-muted">✓ Instant confirmation · ✓ Secure process</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hero Content -->
+            <div class="col-lg-7 ps-lg-5 text-white text-center text-lg-start">
+                <div class="d-inline-block px-3 py-1 rounded-pill" style="background-color: rgba(255, 102, 0, 0.1); color: #FF6600;">
+                    <i class="fas fa-globe me-1"></i> Global Shipping Solutions
+                </div>
+                <h1 class="display-5 fw-bold my-4" style="color: #FFFFFF;">Reliable Worldwide Courier: Ships from 10 African Countries to the World</h1>
+                <p class="lead mb-4" style="color: #FFFFFF;">Fast, secure, and reliable shipping solutions for businesses and individuals. Track your packages in real-time.</p>
+                
+                <div class="d-flex gap-3 mb-4 justify-content-center justify-content-lg-start">
+                    <a href="{{ url_for('shipment.book') }}" class="btn btn-orange btn-lg px-4">Book Shipment</a>
+                    <a href="{{ url_for('main.track') }}" class="btn btn-outline-light btn-lg px-4">Track Shipment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="section py-5" id="how-it-works">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-2">How It Works</h2>
+            <p>Sending your cargo is simple with BEXO CARGO. Follow these 4 easy steps:</p>
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-3 text-center">
+                <div class="position-relative mb-4">
+                    <img src="{{ url_for('static', filename='images/icons/icon-1.png') }}" alt="Book Online" style="width: 100px; height: 100px;">
+                </div>
+                <h4 class="fw-bold">Book Online</h4>
+                <p class="text-muted">Fill our simple booking form to schedule a pickup.</p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="position-relative mb-4">
+                    <img src="{{ url_for('static', filename='images/icons/icon-2.png') }}" alt="We Collect" style="width: 100px; height: 100px;">
+                </div>
+                <h4 class="fw-bold">We Collect</h4>
+                <p class="text-muted">Our team collects your cargo from your location.</p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="position-relative mb-4">
+                    <img src="{{ url_for('static', filename='images/icons/icon-3.png') }}" alt="We Ship" style="width: 100px; height: 100px;">
+                </div>
+                <h4 class="fw-bold">We Ship</h4>
+                <p class="text-muted">Cargo is shipped securely via our air courier network.</p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="position-relative mb-4">
+                    <img src="{{ url_for('static', filename='images/icons/icon-4.png') }}" alt="Delivered" style="width: 100px; height: 100px;">
+                </div>
+                <h4 class="fw-bold">Delivered</h4>
+                <p class="text-muted">Recipient receives the shipment safely and on time.</p>
+            </div>
+        </div>
+        
+        <!-- Instructions for icon replacement -->
+        <div class="row mt-4 d-none">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h5 class="fw-bold">Icon Replacement Instructions:</h5>
+                    <p>To replace the icons in the "How It Works" section:</p>
+                    <ol>
+                        <li>Create 4 icons for Book Online, We Collect, We Ship, and Delivered</li>
+                        <li>Each icon should be formatted as SVG or embedded in a div with dimensions 60x60px</li>
+                        <li>Replace the placeholder SVG content in each section</li>
+                        <li>You can customize the background color (#fff0e6) and icon color (#FF6600) as needed</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="section py-5 bg-light" id="services">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-2">Our Services</h2>
+            <p>Tailored logistics solutions for individuals and businesses, ensuring efficiency and reliability.</p>
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-4">
+                            <img src="{{ url_for('static', filename='images/services/air-courier.png') }}" alt="Air Courier Service" width="120" height="120" class="img-fluid" style="object-fit: contain;">
+                        </div>
+                        <h4 class="card-title mb-3 fw-bold">Air Courier</h4>
+                        <p class="card-text text-muted">Express international shipping for fast delivery worldwide.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-4">
+                            <img src="{{ url_for('static', filename='images/services/door-to-door.png') }}" alt="Door to Door Service" width="120" height="120" class="img-fluid" style="object-fit: contain;">
+                        </div>
+                        <h4 class="card-title mb-3 fw-bold">Door-to-Door</h4>
+                        <p class="card-text text-muted">We pickup and deliver right to your door address, hassle-free.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-4">
+                            <img src="{{ url_for('static', filename='images/services/bulk-cargo.png') }}" alt="Bulk & Special Cargo Service" width="120" height="120" class="img-fluid" style="object-fit: contain;">
+                        </div>
+                        <h4 class="card-title mb-3 fw-bold">Bulk & Special Cargo</h4>
+                        <p class="card-text text-muted">Customized solutions for large shipments requiring specialized handling.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="section py-5" id="testimonials">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-2">What Our Clients Say</h2>
+            <p>Trusted by customers across Africa for reliable delivery and exceptional service.</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{{ url_for('static', filename='images/testimonials/kwame-boateng.png') }}" alt="Kwame Boateng" class="rounded-circle me-3" width="60" height="60" style="object-fit: cover;">
+                            <div>
+                                <h5 class="mb-0 fw-bold">Kwame Boateng</h5>
+                                <p class="mb-0 small text-muted">Accra, Ghana</p>
+                            </div>
+                        </div>
+                        <p class="mb-3">"I ship cargo from Ghana to Nigeria every week. The tracking updates were spot on!"</p>
+                        <div class="rating">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{{ url_for('static', filename='images/testimonials/amandia-sam.png') }}" alt="Amandia Sam" class="rounded-circle me-3" width="60" height="60" style="object-fit: cover;">
+                            <div>
+                                <h5 class="mb-0 fw-bold">Amandia Sam</h5>
+                                <p class="mb-0 small text-muted">Dakar, Senegal</p>
+                            </div>
+                        </div>
+                        <p class="mb-3">"Products arrived in perfect condition, highly recommended! Best logistics service."</p>
+                        <div class="rating">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{{ url_for('static', filename='images/testimonials/samuel-ochieng.png') }}" alt="Samuel Ochieng" class="rounded-circle me-3" width="60" height="60" style="object-fit: cover;">
+                            <div>
+                                <h5 class="mb-0 fw-bold">Samuel Ochieng</h5>
+                                <p class="mb-0 small text-muted">Nairobi, Kenya</p>
+                            </div>
+                        </div>
+                        <p class="mb-3">"Extremely responsive customer service and professional. Will use again for sure!"</p>
+                        <div class="rating">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tracking Section -->
+<section class="py-5" id="tracking" style="background-color: #051C39; color: white;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="fw-bold mb-4">Track Your Shipment</h2>
+                <p class="mb-4">Enter your tracking number to see real-time updates.</p>
+                
+                <form action="{{ url_for('main.track') }}" method="POST" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-lg border-0 bg-dark text-light" name="tracking_number" placeholder="Enter Tracking Number" required style="height: 56px;">
+                        <button class="btn btn-orange btn-lg px-4" type="submit" style="background-color: #FF6600;">Track</button>
+                    </div>
+                </form>
+                
+                <div class="d-flex justify-content-center gap-4 mt-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-shield-alt me-2 text-orange" style="color: #FF6600;"></i>
+                        <span>Secure Tracking</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-bolt me-2 text-orange" style="color: #FF6600;"></i>
+                        <span>Instant Updates</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-globe me-2 text-orange" style="color: #FF6600;"></i>
+                        <span>Worldwide Shipping</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% set hide_footer = true %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add event listener to Book Now button in the quick form
+        const quickForm = document.querySelector('.booking-form form');
+        if (quickForm) {
+            quickForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Redirect to the full booking page
+                window.location.href = "{{ url_for('shipment.book') }}";
+            });
+        }
+    });
+</script>
+{% endblock %}
