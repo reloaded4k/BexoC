@@ -1,0 +1,19 @@
+# SiteGround .htaccess for Python application
+PassengerAppType wsgi
+PassengerStartupFile passenger_wsgi.py
+# Replace USERNAME with your actual SiteGround username in the final upload
+PassengerAppRoot /home/USERNAME/public_html/bexocargo
+
+# Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Add custom error pages if needed
+# ErrorDocument 404 /404.html
+
+# Disable directory browsing
+Options -Indexes
+
+# Set default character set
+AddDefaultCharset UTF-8
