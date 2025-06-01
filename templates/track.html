@@ -137,7 +137,7 @@
                                         </div>
                                         <div class="col-md-4 text-end">
                                             <a href="{{ url_for('main.download_invoice', tracking_number=shipment.tracking_number) }}" 
-                                               class="btn btn-primary" target="_blank">
+                                               class="btn btn-primary" download="{{ shipment.invoice.filename }}">
                                                 <i class="fas fa-download me-2"></i>Download Invoice
                                             </a>
                                         </div>

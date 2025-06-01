@@ -162,20 +162,27 @@ def download_invoice(tracking_number):
             'content_type': content_type
         })
         
-        # Send file with proper headers for iOS Safari compatibility
-        response = send_from_directory(
-            directory, 
-            filename, 
-            as_attachment=True, 
-            download_name=shipment.invoice.filename,
-            mimetype=content_type
-        )
+        # Create response with explicit headers for iOS compatibility
+        from flask import Response
         
-        # Add additional headers for better mobile browser compatibility
-        response.headers['Content-Disposition'] = f'attachment; filename="{shipment.invoice.filename}"'
-        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-        response.headers['Pragma'] = 'no-cache'
-        response.headers['Expires'] = '0'
+        # Read file content
+        with open(file_path, 'rb') as f:
+            file_data = f.read()
+        
+        # Create response with explicit headers for iOS Safari compatibility
+        response = Response(
+            file_data,
+            mimetype=content_type,
+            headers={
+                'Content-Disposition': f'attachment; filename="{shipment.invoice.filename}"',
+                'Content-Type': content_type,
+                'Content-Length': str(len(file_data)),
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+                'X-Content-Type-Options': 'nosniff'
+            }
+        )
         
         return response
         
