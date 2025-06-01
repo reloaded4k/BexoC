@@ -3,6 +3,7 @@ from forms import ContactForm, ShipmentForm, TrackingForm
 from models import Contact, Shipment, Invoice
 from app import db
 from utils.email import send_contact_email, send_booking_email
+from utils.logging_config import log_error, log_info, log_warning
 import os
 import mimetypes
 
@@ -33,27 +34,52 @@ def contact():
     form = ContactForm()
     
     if form.validate_on_submit():
-        # Create new contact entry
-        contact = Contact(
-            name=form.name.data,
-            email=form.email.data,
-            address=form.address.data,
-            contact_number=form.contact_number.data,
-            message=form.message.data
-        )
-        
-        # Save to database
-        db.session.add(contact)
-        db.session.commit()
-        
-        # Send email notification
-        send_contact_email(contact)
-        
-        # Flash success message
-        flash('Your message has been sent successfully. We will get back to you soon!', 'success')
-        
-        # Redirect to contact page
-        return redirect(url_for('main.contact'))
+        try:
+            # Create new contact entry
+            contact = Contact(
+                name=form.name.data,
+                email=form.email.data,
+                address=form.address.data,
+                contact_number=form.contact_number.data,
+                message=form.message.data
+            )
+            
+            # Save to database
+            db.session.add(contact)
+            db.session.commit()
+            
+            log_info(f"New contact form submission from {form.email.data}", {
+                'name': form.name.data,
+                'email': form.email.data
+            })
+            
+            # Send email notification
+            try:
+                send_contact_email(contact)
+                log_info(f"Contact email sent successfully for {form.email.data}")
+            except Exception as email_error:
+                log_error(email_error, {
+                    'operation': 'send_contact_email',
+                    'contact_email': form.email.data
+                })
+                # Still show success to user since contact was saved
+            
+            # Flash success message
+            flash('Your message has been sent successfully. We will get back to you soon!', 'success')
+            
+            # Redirect to contact page
+            return redirect(url_for('main.contact'))
+            
+        except Exception as e:
+            db.session.rollback()
+            log_error(e, {
+                'operation': 'contact_form_submission',
+                'form_data': {
+                    'name': form.name.data,
+                    'email': form.email.data
+                }
+            })
+            flash('An error occurred while processing your message. Please try again.', 'danger')
     
     return render_template('contact.html', form=form)
 

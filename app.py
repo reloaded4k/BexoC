@@ -6,6 +6,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from werkzeug.middleware.proxy_fix import ProxyFix
 import logging
+from utils.logging_config import setup_logging
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -36,6 +37,9 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+    
+    # Setup comprehensive logging
+    setup_logging(app)
     
     # Set login view
     login_manager.login_view = 'admin.login'
