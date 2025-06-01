@@ -329,7 +329,69 @@ footer ul li a:hover {
     color: #e74c3c;
 }
 
-/* Responsive adjustments */
+/* Tracking Results Page Layout */
+.tracking-results-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.tracking-results-container .card {
+    margin-bottom: 1.5rem;
+}
+
+/* Reduce spacing between tracking sections */
+#tracking-result .row {
+    margin-bottom: 0;
+}
+
+#tracking-result .col-lg-10 {
+    padding-bottom: 0;
+}
+
+/* Compact tracking card spacing */
+#tracking-result .card:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+/* Tighter spacing for tracking form */
+.tracking-form-container {
+    margin-bottom: 2rem;
+}
+
+.tracking-form-container .card {
+    margin-bottom: 1rem;
+}
+
+/* Invoice section spacing adjustments */
+.tracking-invoice-section {
+    margin-bottom: 1rem;
+}
+
+/* Timeline spacing optimization */
+.timeline {
+    padding-top: 0.5rem;
+}
+
+.timeline-item {
+    margin-bottom: 1rem;
+}
+
+/* Responsive adjustments for tracking */
+@media (max-width: 991.98px) {
+    .tracking-results-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    #tracking-result .card {
+        margin-bottom: 0.75rem;
+    }
+    
+    .tracking-form-container {
+        margin-bottom: 1.5rem;
+    }
+}
+
 @media (max-width: 767.98px) {
     .hero {
         padding: 60px 0;
@@ -345,5 +407,19 @@ footer ul li a:hover {
     
     .admin-sidebar {
         min-height: auto;
+    }
+    
+    /* Mobile tracking adjustments */
+    .tracking-results-container {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    #tracking-result .card {
+        margin-bottom: 0.5rem;
+    }
+    
+    .tracking-form-container .card {
+        margin-bottom: 0.5rem;
     }
 }
