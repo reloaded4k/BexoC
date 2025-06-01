@@ -47,6 +47,9 @@ class Shipment(db.Model):
     # Relationship to tracking history
     tracking_history = db.relationship('TrackingHistory', backref='shipment', lazy=True, cascade="all, delete-orphan")
     
+    # Relationship to invoice (one-to-one) - defined after Invoice model
+    # invoice = db.relationship('Invoice', backref='shipment', uselist=False, cascade="all, delete-orphan")
+    
     def __repr__(self):
         return f"<Shipment {self.tracking_number}>"
     
@@ -72,6 +75,19 @@ class TrackingHistory(db.Model):
     def __repr__(self):
         return f"<TrackingHistory {self.status} at {self.timestamp}>"
 
+class Invoice(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    shipment_id = db.Column(db.Integer, db.ForeignKey('shipment.id'), nullable=False)
+    filename = db.Column(db.String(255), nullable=False)
+    file_path = db.Column(db.String(500), nullable=False)
+    file_size = db.Column(db.Integer, nullable=False)
+    content_type = db.Column(db.String(100), nullable=False)
+    uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
+    uploaded_by = db.Column(db.String(100), nullable=True)  # Admin username who uploaded
+    
+    def __repr__(self):
+        return f"<Invoice {self.filename}>"
+
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -83,3 +99,6 @@ class Contact(db.Model):
     
     def __repr__(self):
         return f"<Contact {self.name}>"
+
+# Add the invoice relationship to Shipment after all models are defined
+Shipment.invoice = db.relationship('Invoice', backref='shipment', uselist=False, cascade="all, delete-orphan")
