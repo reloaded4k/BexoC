@@ -7,6 +7,7 @@ from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from datetime import datetime
 from urllib.parse import urlparse, urljoin
+from utils.logging_config import log_error, log_info, log_warning
 import os
 
 admin_bp = Blueprint('admin', __name__)
@@ -39,30 +40,45 @@ def login():
     form = LoginForm()
     
     if form.validate_on_submit():
-        # Get admin by username
-        admin = Admin.query.filter_by(username=form.username.data).first()
-        
-        # Check if admin exists and password is correct
-        password = form.password.data or ""  # Ensure password is never None
-        if admin and check_password_hash(admin.password_hash, password):
-            login_user(admin)
-            next_page = request.args.get('next')
-            # Validate next_page to prevent open redirect vulnerability using urlparse
-            if next_page:
-                # Create a safe function to validate redirects
-                def is_safe_redirect_url(target):
-                    host_url = request.host_url
-                    redirect_url = urljoin(host_url, target)
-                    # Validate that the redirect URL has the same host as our application
-                    return urlparse(redirect_url).netloc == urlparse(host_url).netloc
+        try:
+            # Get admin by username
+            admin = Admin.query.filter_by(username=form.username.data).first()
+            
+            # Check if admin exists and password is correct
+            password = form.password.data or ""  # Ensure password is never None
+            if admin and check_password_hash(admin.password_hash, password):
+                login_user(admin)
                 
-                # Only redirect to safe URLs
-                if not is_safe_redirect_url(next_page):
-                    next_page = None
+                log_info(f"Admin login successful: {form.username.data}", {
+                    'admin_id': admin.id,
+                    'admin_username': admin.username
+                }, admin.id)
+                
+                next_page = request.args.get('next')
+                # Validate next_page to prevent open redirect vulnerability using urlparse
+                if next_page:
+                    # Create a safe function to validate redirects
+                    def is_safe_redirect_url(target):
+                        host_url = request.host_url
+                        redirect_url = urljoin(host_url, target)
+                        # Validate that the redirect URL has the same host as our application
+                        return urlparse(redirect_url).netloc == urlparse(host_url).netloc
                     
-            return redirect(next_page or url_for('admin.dashboard'))
-        else:
-            flash('Invalid username or password', 'danger')
+                    # Only redirect to safe URLs
+                    if not is_safe_redirect_url(next_page):
+                        next_page = None
+                        
+                return redirect(next_page or url_for('admin.dashboard'))
+            else:
+                log_warning(f"Failed admin login attempt: {form.username.data}")
+                flash('Invalid username or password', 'danger')
+        
+        except Exception as e:
+            log_error(e, {
+                'operation': 'admin_login',
+                'username': form.username.data
+            })
+            flash('An error occurred during login. Please try again.', 'danger')
     
     return render_template('admin/login.html', form=form)
 

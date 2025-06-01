@@ -89,14 +89,27 @@ def track():
     shipment = None
     
     if form.validate_on_submit() or request.args.get('tracking_number'):
-        # Get tracking number from form or URL parameter
-        tracking_number = form.tracking_number.data or request.args.get('tracking_number')
+        try:
+            # Get tracking number from form or URL parameter
+            tracking_number = form.tracking_number.data or request.args.get('tracking_number')
+            
+            log_info(f"Tracking lookup attempted for: {tracking_number}")
+            
+            # Query shipment
+            shipment = Shipment.query.filter_by(tracking_number=tracking_number).first()
+            
+            if not shipment:
+                log_warning(f"Tracking number not found: {tracking_number}")
+                flash('Tracking number not found. Please check and try again.', 'danger')
+            else:
+                log_info(f"Tracking lookup successful for: {tracking_number}")
         
-        # Query shipment
-        shipment = Shipment.query.filter_by(tracking_number=tracking_number).first()
-        
-        if not shipment:
-            flash('Tracking number not found. Please check and try again.', 'danger')
+        except Exception as e:
+            log_error(e, {
+                'operation': 'tracking_lookup',
+                'tracking_number': tracking_number if 'tracking_number' in locals() else 'unknown'
+            })
+            flash('An error occurred while looking up your tracking number. Please try again.', 'danger')
     
     return render_template('track.html', form=form, shipment=shipment)
 
