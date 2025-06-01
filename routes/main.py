@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request
+from flask import Blueprint, render_template, flash, redirect, url_for, request, send_from_directory, abort
 from forms import ContactForm, ShipmentForm, TrackingForm
-from models import Contact, Shipment
+from models import Contact, Shipment, Invoice
 from app import db
 from utils.email import send_contact_email, send_booking_email
+import os
 
 main_bp = Blueprint('main', __name__)
 
@@ -71,3 +72,30 @@ def track():
             flash('Tracking number not found. Please check and try again.', 'danger')
     
     return render_template('track.html', form=form, shipment=shipment)
+
+@main_bp.route('/download-invoice/<tracking_number>')
+def download_invoice(tracking_number):
+    # Get shipment by tracking number
+    shipment = Shipment.query.filter_by(tracking_number=tracking_number).first()
+    
+    if not shipment:
+        abort(404, description="Shipment not found")
+    
+    if not shipment.invoice:
+        abort(404, description="Invoice not found for this shipment")
+    
+    # Security check - ensure file exists
+    if not os.path.exists(shipment.invoice.file_path):
+        abort(404, description="Invoice file not found")
+    
+    # Get directory and filename
+    directory = os.path.dirname(shipment.invoice.file_path)
+    filename = os.path.basename(shipment.invoice.file_path)
+    
+    # Send file with original filename
+    return send_from_directory(
+        directory, 
+        filename, 
+        as_attachment=True, 
+        download_name=shipment.invoice.filename
+    )

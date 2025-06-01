@@ -164,3 +164,85 @@ def delete_shipment(tracking_number):
     
     flash('Shipment deleted successfully', 'success')
     return redirect(url_for('admin.bookings'))
+
+@admin_bp.route('/shipment/<tracking_number>/upload-invoice', methods=['POST'])
+@login_required
+def upload_invoice(tracking_number):
+    # Get shipment by tracking number
+    shipment = Shipment.query.filter_by(tracking_number=tracking_number).first_or_404()
+    
+    # Create invoice upload form
+    form = InvoiceUploadForm()
+    
+    if form.validate_on_submit():
+        file = form.invoice_file.data
+        
+        if file:
+            # Secure the filename
+            filename = secure_filename(file.filename)
+            
+            # Create unique filename with timestamp
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            unique_filename = f"{tracking_number}_{timestamp}_{filename}"
+            
+            # Define file path
+            upload_folder = os.path.join('static', 'invoices')
+            file_path = os.path.join(upload_folder, unique_filename)
+            
+            # Ensure upload directory exists
+            os.makedirs(upload_folder, exist_ok=True)
+            
+            # Save the file
+            file.save(file_path)
+            
+            # Remove existing invoice if it exists
+            if shipment.invoice:
+                # Delete old file
+                old_file_path = shipment.invoice.file_path
+                if os.path.exists(old_file_path):
+                    os.remove(old_file_path)
+                # Delete old invoice record
+                db.session.delete(shipment.invoice)
+            
+            # Create new invoice record
+            invoice = Invoice(
+                shipment_id=shipment.id,
+                filename=filename,
+                file_path=file_path,
+                file_size=os.path.getsize(file_path),
+                content_type=file.content_type,
+                uploaded_by=current_user.username
+            )
+            
+            db.session.add(invoice)
+            db.session.commit()
+            
+            flash('Invoice uploaded successfully', 'success')
+        else:
+            flash('No file selected', 'error')
+    else:
+        for error in form.errors.values():
+            flash(error[0], 'error')
+    
+    return redirect(url_for('admin.view_shipment', tracking_number=tracking_number))
+
+@admin_bp.route('/shipment/<tracking_number>/delete-invoice', methods=['POST'])
+@login_required
+def delete_invoice(tracking_number):
+    # Get shipment by tracking number
+    shipment = Shipment.query.filter_by(tracking_number=tracking_number).first_or_404()
+    
+    if shipment.invoice:
+        # Delete file from filesystem
+        if os.path.exists(shipment.invoice.file_path):
+            os.remove(shipment.invoice.file_path)
+        
+        # Delete invoice record
+        db.session.delete(shipment.invoice)
+        db.session.commit()
+        
+        flash('Invoice deleted successfully', 'success')
+    else:
+        flash('No invoice found', 'error')
+    
+    return redirect(url_for('admin.view_shipment', tracking_number=tracking_number))

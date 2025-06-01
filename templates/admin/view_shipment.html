@@ -179,6 +179,86 @@
                         </div>
                     </div>
                     
+                    <!-- Invoice Management Section -->
+                    <div class="card border-0 shadow mb-4">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Invoice Management</h5>
+                            {% if shipment.invoice %}
+                                <span class="badge bg-success">Invoice Available</span>
+                            {% else %}
+                                <span class="badge bg-secondary">No Invoice</span>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            {% if shipment.invoice %}
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h6 class="mb-2">Current Invoice</h6>
+                                        <p class="mb-1"><strong>File:</strong> {{ shipment.invoice.filename }}</p>
+                                        <p class="mb-1"><strong>Size:</strong> {{ "%.1f"|format(shipment.invoice.file_size / 1024) }} KB</p>
+                                        <p class="mb-1"><strong>Uploaded:</strong> {{ shipment.invoice.uploaded_at.strftime('%B %d, %Y at %H:%M') }}</p>
+                                        {% if shipment.invoice.uploaded_by %}
+                                            <p class="mb-0"><strong>By:</strong> {{ shipment.invoice.uploaded_by }}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <div class="d-grid gap-2">
+                                            <a href="{{ url_for('main.download_invoice', tracking_number=shipment.tracking_number) }}" 
+                                               class="btn btn-outline-primary btn-sm" target="_blank">
+                                                <i class="fas fa-download me-2"></i>Download
+                                            </a>
+                                            <button type="button" class="btn btn-outline-danger btn-sm" 
+                                                    data-bs-toggle="modal" data-bs-target="#deleteInvoiceModal">
+                                                <i class="fas fa-trash me-2"></i>Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr class="my-3">
+                                
+                                <h6 class="mb-3">Replace Invoice</h6>
+                                <form action="{{ url_for('admin.upload_invoice', tracking_number=shipment.tracking_number) }}" 
+                                      method="POST" enctype="multipart/form-data">
+                                    {% set invoice_form = InvoiceUploadForm() %}
+                                    {{ invoice_form.csrf_token }}
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            {{ invoice_form.invoice_file(class="form-control", accept=".pdf,.png,.jpg,.jpeg") }}
+                                            <div class="form-text">Allowed formats: PDF, PNG, JPG. Max size: 10MB</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-grid">
+                                                {{ invoice_form.submit(class="btn btn-warning") }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <div class="text-center py-4">
+                                    <i class="fas fa-file-invoice fa-3x text-muted mb-3"></i>
+                                    <h6 class="mb-3">No Invoice Uploaded</h6>
+                                    <p class="text-muted mb-4">Upload an invoice for this shipment to make it available for customer download.</p>
+                                    
+                                    <form action="{{ url_for('admin.upload_invoice', tracking_number=shipment.tracking_number) }}" 
+                                          method="POST" enctype="multipart/form-data">
+                                        {% set invoice_form = InvoiceUploadForm() %}
+                                        {{ invoice_form.csrf_token }}
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-8">
+                                                {{ invoice_form.invoice_file(class="form-control mb-3", accept=".pdf,.png,.jpg,.jpeg") }}
+                                                <div class="form-text mb-3">Allowed formats: PDF, PNG, JPG. Max size: 10MB</div>
+                                                <div class="d-grid">
+                                                    {{ invoice_form.submit(class="btn btn-primary") }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
                     <div class="card border-0 shadow">
                         <div class="card-header bg-white py-3">
                             <h5 class="mb-0">Tracking History</h5>
@@ -238,6 +318,28 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <form action="{{ url_for('admin.delete_shipment', tracking_number=shipment.tracking_number) }}" method="POST">
                     <button type="submit" class="btn btn-danger">Delete Shipment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Invoice Modal -->
+<div class="modal fade" id="deleteInvoiceModal" tabindex="-1" aria-labelledby="deleteInvoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteInvoiceModalLabel">Delete Invoice</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the invoice for this shipment?</p>
+                <p class="text-danger mb-0"><strong>Warning:</strong> This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ url_for('admin.delete_invoice', tracking_number=shipment.tracking_number) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete Invoice</button>
                 </form>
             </div>
         </div>
