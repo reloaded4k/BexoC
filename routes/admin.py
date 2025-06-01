@@ -123,10 +123,14 @@ def view_shipment(tracking_number):
     # Create edit form but don't process it here
     edit_form = EditShipmentForm(obj=shipment)
     
+    # Create invoice upload form
+    invoice_form = InvoiceUploadForm()
+    
     return render_template('admin/view_shipment.html', 
                           shipment=shipment, 
                           update_form=update_form,
-                          edit_form=edit_form)
+                          edit_form=edit_form,
+                          invoice_form=invoice_form)
 
 @admin_bp.route('/shipment/<tracking_number>/edit', methods=['GET', 'POST'])
 @login_required

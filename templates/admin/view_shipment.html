@@ -220,7 +220,6 @@
                                 <h6 class="mb-3">Replace Invoice</h6>
                                 <form action="{{ url_for('admin.upload_invoice', tracking_number=shipment.tracking_number) }}" 
                                       method="POST" enctype="multipart/form-data">
-                                    {% set invoice_form = InvoiceUploadForm() %}
                                     {{ invoice_form.csrf_token }}
                                     <div class="row">
                                         <div class="col-md-8">
@@ -242,7 +241,6 @@
                                     
                                     <form action="{{ url_for('admin.upload_invoice', tracking_number=shipment.tracking_number) }}" 
                                           method="POST" enctype="multipart/form-data">
-                                        {% set invoice_form = InvoiceUploadForm() %}
                                         {{ invoice_form.csrf_token }}
                                         <div class="row justify-content-center">
                                             <div class="col-md-8">
