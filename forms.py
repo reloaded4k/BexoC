@@ -74,3 +74,10 @@ class EditShipmentForm(FlaskForm):
     cargo_width = FloatField('Width (cm)', validators=[Optional()])
     cargo_height = FloatField('Height (cm)', validators=[Optional()])
     cargo_weight = FloatField('Weight (kg)', validators=[Optional()])
+
+class InvoiceUploadForm(FlaskForm):
+    invoice_file = FileField('Invoice File', validators=[
+        DataRequired(message='Please select a file to upload'),
+        FileAllowed(['pdf', 'png', 'jpg', 'jpeg'], 'Only PDF, PNG, and JPG files are allowed')
+    ])
+    submit = SubmitField('Upload Invoice')
