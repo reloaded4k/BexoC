@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request, send_from_directory
+from flask import Blueprint, render_template, flash, redirect, url_for, request, send_from_directory, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from models import Admin, Shipment, TrackingHistory, Invoice
 from forms import LoginForm, TrackingUpdateForm, EditShipmentForm, InvoiceUploadForm
@@ -189,8 +189,8 @@ def upload_invoice(tracking_number):
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
             unique_filename = f"{tracking_number}_{timestamp}_{filename}"
             
-            # Define file path
-            upload_folder = os.path.join('static', 'invoices')
+            # Define absolute file path
+            upload_folder = os.path.join(current_app.root_path, 'static', 'invoices')
             file_path = os.path.join(upload_folder, unique_filename)
             
             # Ensure upload directory exists
@@ -203,6 +203,9 @@ def upload_invoice(tracking_number):
             if shipment.invoice:
                 # Delete old file
                 old_file_path = shipment.invoice.file_path
+                if not os.path.isabs(old_file_path):
+                    old_file_path = os.path.join(current_app.root_path, old_file_path)
+                
                 if os.path.exists(old_file_path):
                     os.remove(old_file_path)
                 # Delete old invoice record
@@ -238,8 +241,12 @@ def delete_invoice(tracking_number):
     
     if shipment.invoice:
         # Delete file from filesystem
-        if os.path.exists(shipment.invoice.file_path):
-            os.remove(shipment.invoice.file_path)
+        file_path = shipment.invoice.file_path
+        if not os.path.isabs(file_path):
+            file_path = os.path.join(current_app.root_path, file_path)
+        
+        if os.path.exists(file_path):
+            os.remove(file_path)
         
         # Delete invoice record
         db.session.delete(shipment.invoice)

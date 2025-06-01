@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request, send_from_directory, abort
+from flask import Blueprint, render_template, flash, redirect, url_for, request, send_from_directory, abort, current_app
 from forms import ContactForm, ShipmentForm, TrackingForm
 from models import Contact, Shipment, Invoice
 from app import db
 from utils.email import send_contact_email, send_booking_email
 import os
+import mimetypes
 
 main_bp = Blueprint('main', __name__)
 
@@ -84,18 +85,34 @@ def download_invoice(tracking_number):
     if not shipment.invoice:
         abort(404, description="Invoice not found for this shipment")
     
+    # Ensure we have a valid file path
+    file_path = shipment.invoice.file_path
+    
+    # If file path is relative, make it absolute
+    if not os.path.isabs(file_path):
+        file_path = os.path.join(current_app.root_path, file_path)
+    
     # Security check - ensure file exists
-    if not os.path.exists(shipment.invoice.file_path):
+    if not os.path.exists(file_path):
+        current_app.logger.error(f"Invoice file not found at path: {file_path}")
         abort(404, description="Invoice file not found")
     
-    # Get directory and filename
-    directory = os.path.dirname(shipment.invoice.file_path)
-    filename = os.path.basename(shipment.invoice.file_path)
+    # Get directory and filename using the corrected path
+    directory = os.path.dirname(file_path)
+    filename = os.path.basename(file_path)
     
-    # Send file with original filename
+    # Determine content type for better iOS compatibility
+    content_type = shipment.invoice.content_type
+    if not content_type:
+        content_type, _ = mimetypes.guess_type(filename)
+        if not content_type:
+            content_type = 'application/octet-stream'
+    
+    # Send file with proper headers for iOS Safari compatibility
     return send_from_directory(
         directory, 
         filename, 
         as_attachment=True, 
-        download_name=shipment.invoice.filename
+        download_name=shipment.invoice.filename,
+        mimetype=content_type
     )
