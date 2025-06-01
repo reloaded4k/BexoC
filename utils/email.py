@@ -2,6 +2,7 @@ from flask import render_template, current_app
 from flask_mail import Message
 from app import mail
 import logging
+from utils.logging_config import log_error, log_info
 
 def send_email(subject, recipients, text_body, html_body, sender=None):
     """

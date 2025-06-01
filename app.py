@@ -63,7 +63,42 @@ def create_app():
         app.register_blueprint(admin_bp, url_prefix='/admin')
         app.register_blueprint(shipment_bp)
         
+        # Register global error handlers
+        register_error_handlers(app)
+        
         return app
+
+def register_error_handlers(app):
+    """Register global error handlers for the application"""
+    from utils.logging_config import log_error
+    from flask import render_template, request
+    
+    @app.errorhandler(404)
+    def not_found_error(error):
+        log_error(error, {
+            'operation': 'page_not_found',
+            'requested_url': request.url
+        })
+        return render_template('404.html'), 404
+    
+    @app.errorhandler(500)
+    def internal_error(error):
+        log_error(error, {
+            'operation': 'internal_server_error',
+            'requested_url': request.url
+        })
+        db.session.rollback()
+        return render_template('500.html'), 500
+    
+    @app.errorhandler(Exception)
+    def handle_exception(error):
+        log_error(error, {
+            'operation': 'unhandled_exception',
+            'requested_url': request.url,
+            'error_type': type(error).__name__
+        })
+        # Return 500 for any unhandled exception
+        return render_template('500.html'), 500
 
 def create_admin():
     from models import Admin
