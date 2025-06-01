@@ -70,35 +70,39 @@ def create_app():
 
 def register_error_handlers(app):
     """Register global error handlers for the application"""
-    from utils.logging_config import log_error
-    from flask import render_template, request
+    from flask import render_template, request, jsonify
     
     @app.errorhandler(404)
     def not_found_error(error):
-        log_error(error, {
-            'operation': 'page_not_found',
-            'requested_url': request.url
-        })
-        return render_template('404.html'), 404
+        try:
+            # Try to log the error safely
+            app.logger.warning(f"404 Error: {request.url}")
+            return render_template('404.html'), 404
+        except Exception:
+            # Fallback for template errors
+            return '<h1>Page Not Found</h1><p>The requested page could not be found.</p>', 404
     
     @app.errorhandler(500)
     def internal_error(error):
-        log_error(error, {
-            'operation': 'internal_server_error',
-            'requested_url': request.url
-        })
-        db.session.rollback()
-        return render_template('500.html'), 500
+        try:
+            # Try to log the error safely
+            app.logger.error(f"500 Error: {str(error)}")
+            db.session.rollback()
+            return render_template('500.html'), 500
+        except Exception:
+            # Fallback for template errors
+            return '<h1>Server Error</h1><p>An internal server error occurred.</p>', 500
     
     @app.errorhandler(Exception)
     def handle_exception(error):
-        log_error(error, {
-            'operation': 'unhandled_exception',
-            'requested_url': request.url,
-            'error_type': type(error).__name__
-        })
-        # Return 500 for any unhandled exception
-        return render_template('500.html'), 500
+        try:
+            # Try to log the error safely
+            app.logger.error(f"Unhandled Exception: {type(error).__name__}: {str(error)}")
+            db.session.rollback()
+            return render_template('500.html'), 500
+        except Exception:
+            # Fallback for any errors in error handling
+            return '<h1>Server Error</h1><p>An unexpected error occurred.</p>', 500
 
 def create_admin():
     from models import Admin

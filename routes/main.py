@@ -115,43 +115,74 @@ def track():
 
 @main_bp.route('/download-invoice/<tracking_number>')
 def download_invoice(tracking_number):
-    # Get shipment by tracking number
-    shipment = Shipment.query.filter_by(tracking_number=tracking_number).first()
-    
-    if not shipment:
-        abort(404, description="Shipment not found")
-    
-    if not shipment.invoice:
-        abort(404, description="Invoice not found for this shipment")
-    
-    # Ensure we have a valid file path
-    file_path = shipment.invoice.file_path
-    
-    # If file path is relative, make it absolute
-    if not os.path.isabs(file_path):
-        file_path = os.path.join(current_app.root_path, file_path)
-    
-    # Security check - ensure file exists
-    if not os.path.exists(file_path):
-        current_app.logger.error(f"Invoice file not found at path: {file_path}")
-        abort(404, description="Invoice file not found")
-    
-    # Get directory and filename using the corrected path
-    directory = os.path.dirname(file_path)
-    filename = os.path.basename(file_path)
-    
-    # Determine content type for better iOS compatibility
-    content_type = shipment.invoice.content_type
-    if not content_type:
-        content_type, _ = mimetypes.guess_type(filename)
+    try:
+        # Get shipment by tracking number
+        shipment = Shipment.query.filter_by(tracking_number=tracking_number).first()
+        
+        if not shipment:
+            flash('Shipment not found. Please check your tracking number.', 'danger')
+            return redirect(url_for('main.track'))
+        
+        if not shipment.invoice:
+            flash('No invoice available for this shipment yet. Please check back later or contact support.', 'warning')
+            return redirect(url_for('main.track', tracking_number=tracking_number))
+        
+        # Ensure we have a valid file path
+        file_path = shipment.invoice.file_path
+        
+        # If file path is relative, make it absolute
+        if not os.path.isabs(file_path):
+            file_path = os.path.join(current_app.root_path, file_path)
+        
+        # Security check - ensure file exists
+        if not os.path.exists(file_path):
+            log_error(f"Invoice file missing: {file_path}", {
+                'tracking_number': tracking_number,
+                'expected_path': file_path,
+                'invoice_id': shipment.invoice.id
+            })
+            flash('Invoice file is temporarily unavailable. Please contact support for assistance.', 'danger')
+            return redirect(url_for('main.track', tracking_number=tracking_number))
+        
+        # Get directory and filename using the corrected path
+        directory = os.path.dirname(file_path)
+        filename = os.path.basename(file_path)
+        
+        # Determine content type for better iOS compatibility
+        content_type = shipment.invoice.content_type
         if not content_type:
-            content_type = 'application/octet-stream'
-    
-    # Send file with proper headers for iOS Safari compatibility
-    return send_from_directory(
-        directory, 
-        filename, 
-        as_attachment=True, 
-        download_name=shipment.invoice.filename,
-        mimetype=content_type
-    )
+            content_type, _ = mimetypes.guess_type(filename)
+            if not content_type:
+                content_type = 'application/octet-stream'
+        
+        # Log successful download attempt
+        log_info(f"Invoice download initiated for {tracking_number}", {
+            'tracking_number': tracking_number,
+            'filename': shipment.invoice.filename,
+            'content_type': content_type
+        })
+        
+        # Send file with proper headers for iOS Safari compatibility
+        response = send_from_directory(
+            directory, 
+            filename, 
+            as_attachment=True, 
+            download_name=shipment.invoice.filename,
+            mimetype=content_type
+        )
+        
+        # Add additional headers for better mobile browser compatibility
+        response.headers['Content-Disposition'] = f'attachment; filename="{shipment.invoice.filename}"'
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        
+        return response
+        
+    except Exception as e:
+        log_error(e, {
+            'operation': 'invoice_download',
+            'tracking_number': tracking_number
+        })
+        flash('An error occurred while downloading the invoice. Please try again or contact support.', 'danger')
+        return redirect(url_for('main.track'))
